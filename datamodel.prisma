@@ -34,7 +34,7 @@ type Song {
 
 type Bracket {
   id: ID! @id
-  user: User! @relation(name: "BracketOwner", link:INLINE)
+  user: User! @relation(name: "BracketOwner")
   songs: [Song!]! @relation(link: INLINE)
   roundTime: Int!
   active: Boolean
