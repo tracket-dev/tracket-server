@@ -42,10 +42,14 @@ input BracketCreateWithoutUserInput {
 enum BracketOrderByInput {
   active_ASC
   active_DESC
+  createdAt_ASC
+  createdAt_DESC
   id_ASC
   id_DESC
   roundTime_ASC
   roundTime_DESC
+  updatedAt_ASC
+  updatedAt_DESC
 }
 
 input BracketScalarWhereInput {
@@ -168,6 +172,8 @@ input BracketWhereInput {
   id_not_in: [ID!]
   id_not_starts_with: ID
   id_starts_with: ID
+  NOT: [BracketWhereInput!]
+  OR: [BracketWhereInput!]
   roundTime: Int
   roundTime_gt: Int
   roundTime_gte: Int
@@ -176,6 +182,8 @@ input BracketWhereInput {
   roundTime_lte: Int
   roundTime_not: Int
   roundTime_not_in: [Int!]
+  songs_every: SongWhereInput
+  songs_none: SongWhereInput
   songs_some: SongWhereInput
   user: UserWhereInput
 }
@@ -260,6 +268,8 @@ input SongCreateWithoutVotesInput {
 enum SongOrderByInput {
   album_ASC
   album_DESC
+  createdAt_ASC
+  createdAt_DESC
   id_ASC
   id_DESC
   position_ASC
@@ -268,6 +278,8 @@ enum SongOrderByInput {
   spotifyID_DESC
   title_ASC
   title_DESC
+  updatedAt_ASC
+  updatedAt_DESC
   votingStatus_ASC
   votingStatus_DESC
 }
@@ -460,6 +472,8 @@ input SongWhereInput {
   id_not_in: [ID!]
   id_not_starts_with: ID
   id_starts_with: ID
+  NOT: [SongWhereInput!]
+  OR: [SongWhereInput!]
   position: Int
   position_gt: Int
   position_gte: Int
@@ -496,6 +510,8 @@ input SongWhereInput {
   title_not_in: [String!]
   title_not_starts_with: String
   title_starts_with: String
+  votes_every: VoteWhereInput
+  votes_none: VoteWhereInput
   votes_some: VoteWhereInput
   votingStatus: VotingStatus
   votingStatus_in: [VotingStatus!]
@@ -552,12 +568,16 @@ input UserCreateWithoutVotesInput {
 }
 
 enum UserOrderByInput {
+  createdAt_ASC
+  createdAt_DESC
   email_ASC
   email_DESC
   id_ASC
   id_DESC
   password_ASC
   password_DESC
+  updatedAt_ASC
+  updatedAt_DESC
   username_ASC
   username_DESC
 }
@@ -616,6 +636,8 @@ input UserUpsertWithoutVotesInput {
 
 input UserWhereInput {
   AND: [UserWhereInput!]
+  brackets_every: BracketWhereInput
+  brackets_none: BracketWhereInput
   brackets_some: BracketWhereInput
   email: String
   email_contains: String
@@ -645,6 +667,8 @@ input UserWhereInput {
   id_not_in: [ID!]
   id_not_starts_with: ID
   id_starts_with: ID
+  NOT: [UserWhereInput!]
+  OR: [UserWhereInput!]
   password: String
   password_contains: String
   password_ends_with: String
@@ -673,6 +697,8 @@ input UserWhereInput {
   username_not_in: [String!]
   username_not_starts_with: String
   username_starts_with: String
+  votes_every: VoteWhereInput
+  votes_none: VoteWhereInput
   votes_some: VoteWhereInput
 }
 
@@ -723,8 +749,12 @@ input VoteCreateWithoutUserInput {
 }
 
 enum VoteOrderByInput {
+  createdAt_ASC
+  createdAt_DESC
   id_ASC
   id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
   voteType_ASC
   voteType_DESC
 }
@@ -846,6 +876,8 @@ input VoteWhereInput {
   id_not_in: [ID!]
   id_not_starts_with: ID
   id_starts_with: ID
+  NOT: [VoteWhereInput!]
+  OR: [VoteWhereInput!]
   song: SongWhereInput
   user: UserWhereInput
   voteType: Boolean

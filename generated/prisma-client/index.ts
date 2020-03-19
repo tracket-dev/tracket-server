@@ -362,9 +362,15 @@ export interface UserWhereInput {
   password_not_starts_with?: Maybe<String>;
   password_ends_with?: Maybe<String>;
   password_not_ends_with?: Maybe<String>;
+  votes_every?: Maybe<VoteWhereInput>;
   votes_some?: Maybe<VoteWhereInput>;
+  votes_none?: Maybe<VoteWhereInput>;
+  brackets_every?: Maybe<BracketWhereInput>;
   brackets_some?: Maybe<BracketWhereInput>;
+  brackets_none?: Maybe<BracketWhereInput>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
+  OR?: Maybe<UserWhereInput[] | UserWhereInput>;
+  NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
 export interface BracketCreateManyWithoutUserInput {
@@ -381,6 +387,8 @@ export interface UserSubscriptionWhereInput {
   updatedFields_contains_some?: Maybe<String[] | String>;
   node?: Maybe<UserWhereInput>;
   AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  OR?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  NOT?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
 }
 
 export interface BracketCreateWithoutUserInput {
@@ -411,6 +419,8 @@ export interface VoteWhereInput {
   bracket?: Maybe<BracketWhereInput>;
   user?: Maybe<UserWhereInput>;
   AND?: Maybe<VoteWhereInput[] | VoteWhereInput>;
+  OR?: Maybe<VoteWhereInput[] | VoteWhereInput>;
+  NOT?: Maybe<VoteWhereInput[] | VoteWhereInput>;
 }
 
 export interface BracketUpdateInput {
@@ -676,8 +686,12 @@ export interface SongWhereInput {
   votingStatus_not?: Maybe<VotingStatus>;
   votingStatus_in?: Maybe<VotingStatus[] | VotingStatus>;
   votingStatus_not_in?: Maybe<VotingStatus[] | VotingStatus>;
+  votes_every?: Maybe<VoteWhereInput>;
   votes_some?: Maybe<VoteWhereInput>;
+  votes_none?: Maybe<VoteWhereInput>;
   AND?: Maybe<SongWhereInput[] | SongWhereInput>;
+  OR?: Maybe<SongWhereInput[] | SongWhereInput>;
+  NOT?: Maybe<SongWhereInput[] | SongWhereInput>;
 }
 
 export interface BracketCreateInput {
@@ -795,6 +809,8 @@ export interface VoteSubscriptionWhereInput {
   updatedFields_contains_some?: Maybe<String[] | String>;
   node?: Maybe<VoteWhereInput>;
   AND?: Maybe<VoteSubscriptionWhereInput[] | VoteSubscriptionWhereInput>;
+  OR?: Maybe<VoteSubscriptionWhereInput[] | VoteSubscriptionWhereInput>;
+  NOT?: Maybe<VoteSubscriptionWhereInput[] | VoteSubscriptionWhereInput>;
 }
 
 export interface VoteUpdateWithoutSongDataInput {
@@ -810,6 +826,8 @@ export interface BracketSubscriptionWhereInput {
   updatedFields_contains_some?: Maybe<String[] | String>;
   node?: Maybe<BracketWhereInput>;
   AND?: Maybe<BracketSubscriptionWhereInput[] | BracketSubscriptionWhereInput>;
+  OR?: Maybe<BracketSubscriptionWhereInput[] | BracketSubscriptionWhereInput>;
+  NOT?: Maybe<BracketSubscriptionWhereInput[] | BracketSubscriptionWhereInput>;
 }
 
 export interface UserUpdateOneRequiredWithoutVotesInput {
@@ -955,6 +973,8 @@ export interface SongSubscriptionWhereInput {
   updatedFields_contains_some?: Maybe<String[] | String>;
   node?: Maybe<SongWhereInput>;
   AND?: Maybe<SongSubscriptionWhereInput[] | SongSubscriptionWhereInput>;
+  OR?: Maybe<SongSubscriptionWhereInput[] | SongSubscriptionWhereInput>;
+  NOT?: Maybe<SongSubscriptionWhereInput[] | SongSubscriptionWhereInput>;
 }
 
 export interface BracketUpdateManyDataInput {
@@ -1058,7 +1078,9 @@ export interface BracketWhereInput {
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
   user?: Maybe<UserWhereInput>;
+  songs_every?: Maybe<SongWhereInput>;
   songs_some?: Maybe<SongWhereInput>;
+  songs_none?: Maybe<SongWhereInput>;
   roundTime?: Maybe<Int>;
   roundTime_not?: Maybe<Int>;
   roundTime_in?: Maybe<Int[] | Int>;
@@ -1070,6 +1092,8 @@ export interface BracketWhereInput {
   active?: Maybe<Boolean>;
   active_not?: Maybe<Boolean>;
   AND?: Maybe<BracketWhereInput[] | BracketWhereInput>;
+  OR?: Maybe<BracketWhereInput[] | BracketWhereInput>;
+  NOT?: Maybe<BracketWhereInput[] | BracketWhereInput>;
 }
 
 export interface NodeNode {

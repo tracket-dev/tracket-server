@@ -125,6 +125,8 @@ input BracketSubscriptionWhereInput {
   updatedFields_contains_some: [String!]
   node: BracketWhereInput
   AND: [BracketSubscriptionWhereInput!]
+  OR: [BracketSubscriptionWhereInput!]
+  NOT: [BracketSubscriptionWhereInput!]
 }
 
 input BracketUpdateDataInput {
@@ -215,7 +217,9 @@ input BracketWhereInput {
   id_ends_with: ID
   id_not_ends_with: ID
   user: UserWhereInput
+  songs_every: SongWhereInput
   songs_some: SongWhereInput
+  songs_none: SongWhereInput
   roundTime: Int
   roundTime_not: Int
   roundTime_in: [Int!]
@@ -227,6 +231,8 @@ input BracketWhereInput {
   active: Boolean
   active_not: Boolean
   AND: [BracketWhereInput!]
+  OR: [BracketWhereInput!]
+  NOT: [BracketWhereInput!]
 }
 
 input BracketWhereUniqueInput {
@@ -457,6 +463,8 @@ input SongSubscriptionWhereInput {
   updatedFields_contains_some: [String!]
   node: SongWhereInput
   AND: [SongSubscriptionWhereInput!]
+  OR: [SongSubscriptionWhereInput!]
+  NOT: [SongSubscriptionWhereInput!]
 }
 
 input SongUpdateDataInput {
@@ -612,8 +620,12 @@ input SongWhereInput {
   votingStatus_not: VotingStatus
   votingStatus_in: [VotingStatus!]
   votingStatus_not_in: [VotingStatus!]
+  votes_every: VoteWhereInput
   votes_some: VoteWhereInput
+  votes_none: VoteWhereInput
   AND: [SongWhereInput!]
+  OR: [SongWhereInput!]
+  NOT: [SongWhereInput!]
 }
 
 input SongWhereUniqueInput {
@@ -714,6 +726,8 @@ input UserSubscriptionWhereInput {
   updatedFields_contains_some: [String!]
   node: UserWhereInput
   AND: [UserSubscriptionWhereInput!]
+  OR: [UserSubscriptionWhereInput!]
+  NOT: [UserSubscriptionWhereInput!]
 }
 
 input UserUpdateInput {
@@ -825,9 +839,15 @@ input UserWhereInput {
   password_not_starts_with: String
   password_ends_with: String
   password_not_ends_with: String
+  votes_every: VoteWhereInput
   votes_some: VoteWhereInput
+  votes_none: VoteWhereInput
+  brackets_every: BracketWhereInput
   brackets_some: BracketWhereInput
+  brackets_none: BracketWhereInput
   AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
 }
 
 input UserWhereUniqueInput {
@@ -935,6 +955,8 @@ input VoteSubscriptionWhereInput {
   updatedFields_contains_some: [String!]
   node: VoteWhereInput
   AND: [VoteSubscriptionWhereInput!]
+  OR: [VoteSubscriptionWhereInput!]
+  NOT: [VoteSubscriptionWhereInput!]
 }
 
 input VoteUpdateInput {
@@ -1036,6 +1058,8 @@ input VoteWhereInput {
   bracket: BracketWhereInput
   user: UserWhereInput
   AND: [VoteWhereInput!]
+  OR: [VoteWhereInput!]
+  NOT: [VoteWhereInput!]
 }
 
 input VoteWhereUniqueInput {

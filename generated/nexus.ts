@@ -143,6 +143,8 @@ export interface NexusGenInputs {
     id_not_in?: string[] | null; // [ID!]
     id_not_starts_with?: string | null; // ID
     id_starts_with?: string | null; // ID
+    NOT?: NexusGenInputs['BracketWhereInput'][] | null; // [BracketWhereInput!]
+    OR?: NexusGenInputs['BracketWhereInput'][] | null; // [BracketWhereInput!]
     roundTime?: number | null; // Int
     roundTime_gt?: number | null; // Int
     roundTime_gte?: number | null; // Int
@@ -151,6 +153,8 @@ export interface NexusGenInputs {
     roundTime_lte?: number | null; // Int
     roundTime_not?: number | null; // Int
     roundTime_not_in?: number[] | null; // [Int!]
+    songs_every?: NexusGenInputs['SongWhereInput'] | null; // SongWhereInput
+    songs_none?: NexusGenInputs['SongWhereInput'] | null; // SongWhereInput
     songs_some?: NexusGenInputs['SongWhereInput'] | null; // SongWhereInput
     user?: NexusGenInputs['UserWhereInput'] | null; // UserWhereInput
   }
@@ -358,6 +362,8 @@ export interface NexusGenInputs {
     id_not_in?: string[] | null; // [ID!]
     id_not_starts_with?: string | null; // ID
     id_starts_with?: string | null; // ID
+    NOT?: NexusGenInputs['SongWhereInput'][] | null; // [SongWhereInput!]
+    OR?: NexusGenInputs['SongWhereInput'][] | null; // [SongWhereInput!]
     position?: number | null; // Int
     position_gt?: number | null; // Int
     position_gte?: number | null; // Int
@@ -394,6 +400,8 @@ export interface NexusGenInputs {
     title_not_in?: string[] | null; // [String!]
     title_not_starts_with?: string | null; // String
     title_starts_with?: string | null; // String
+    votes_every?: NexusGenInputs['VoteWhereInput'] | null; // VoteWhereInput
+    votes_none?: NexusGenInputs['VoteWhereInput'] | null; // VoteWhereInput
     votes_some?: NexusGenInputs['VoteWhereInput'] | null; // VoteWhereInput
     votingStatus?: NexusGenEnums['VotingStatus'] | null; // VotingStatus
     votingStatus_in?: NexusGenEnums['VotingStatus'][] | null; // [VotingStatus!]
@@ -479,6 +487,8 @@ export interface NexusGenInputs {
   }
   UserWhereInput: { // input type
     AND?: NexusGenInputs['UserWhereInput'][] | null; // [UserWhereInput!]
+    brackets_every?: NexusGenInputs['BracketWhereInput'] | null; // BracketWhereInput
+    brackets_none?: NexusGenInputs['BracketWhereInput'] | null; // BracketWhereInput
     brackets_some?: NexusGenInputs['BracketWhereInput'] | null; // BracketWhereInput
     email?: string | null; // String
     email_contains?: string | null; // String
@@ -508,6 +518,8 @@ export interface NexusGenInputs {
     id_not_in?: string[] | null; // [ID!]
     id_not_starts_with?: string | null; // ID
     id_starts_with?: string | null; // ID
+    NOT?: NexusGenInputs['UserWhereInput'][] | null; // [UserWhereInput!]
+    OR?: NexusGenInputs['UserWhereInput'][] | null; // [UserWhereInput!]
     password?: string | null; // String
     password_contains?: string | null; // String
     password_ends_with?: string | null; // String
@@ -536,6 +548,8 @@ export interface NexusGenInputs {
     username_not_in?: string[] | null; // [String!]
     username_not_starts_with?: string | null; // String
     username_starts_with?: string | null; // String
+    votes_every?: NexusGenInputs['VoteWhereInput'] | null; // VoteWhereInput
+    votes_none?: NexusGenInputs['VoteWhereInput'] | null; // VoteWhereInput
     votes_some?: NexusGenInputs['VoteWhereInput'] | null; // VoteWhereInput
   }
   UserWhereUniqueInput: { // input type
@@ -674,6 +688,8 @@ export interface NexusGenInputs {
     id_not_in?: string[] | null; // [ID!]
     id_not_starts_with?: string | null; // ID
     id_starts_with?: string | null; // ID
+    NOT?: NexusGenInputs['VoteWhereInput'][] | null; // [VoteWhereInput!]
+    OR?: NexusGenInputs['VoteWhereInput'][] | null; // [VoteWhereInput!]
     song?: NexusGenInputs['SongWhereInput'] | null; // SongWhereInput
     user?: NexusGenInputs['UserWhereInput'] | null; // UserWhereInput
     voteType?: boolean | null; // Boolean
@@ -685,10 +701,10 @@ export interface NexusGenInputs {
 }
 
 export interface NexusGenEnums {
-  BracketOrderByInput: "active_ASC" | "active_DESC" | "id_ASC" | "id_DESC" | "roundTime_ASC" | "roundTime_DESC"
-  SongOrderByInput: "album_ASC" | "album_DESC" | "id_ASC" | "id_DESC" | "position_ASC" | "position_DESC" | "spotifyID_ASC" | "spotifyID_DESC" | "title_ASC" | "title_DESC" | "votingStatus_ASC" | "votingStatus_DESC"
-  UserOrderByInput: "email_ASC" | "email_DESC" | "id_ASC" | "id_DESC" | "password_ASC" | "password_DESC" | "username_ASC" | "username_DESC"
-  VoteOrderByInput: "id_ASC" | "id_DESC" | "voteType_ASC" | "voteType_DESC"
+  BracketOrderByInput: "active_ASC" | "active_DESC" | "createdAt_ASC" | "createdAt_DESC" | "id_ASC" | "id_DESC" | "roundTime_ASC" | "roundTime_DESC" | "updatedAt_ASC" | "updatedAt_DESC"
+  SongOrderByInput: "album_ASC" | "album_DESC" | "createdAt_ASC" | "createdAt_DESC" | "id_ASC" | "id_DESC" | "position_ASC" | "position_DESC" | "spotifyID_ASC" | "spotifyID_DESC" | "title_ASC" | "title_DESC" | "updatedAt_ASC" | "updatedAt_DESC" | "votingStatus_ASC" | "votingStatus_DESC"
+  UserOrderByInput: "createdAt_ASC" | "createdAt_DESC" | "email_ASC" | "email_DESC" | "id_ASC" | "id_DESC" | "password_ASC" | "password_DESC" | "updatedAt_ASC" | "updatedAt_DESC" | "username_ASC" | "username_DESC"
+  VoteOrderByInput: "createdAt_ASC" | "createdAt_DESC" | "id_ASC" | "id_DESC" | "updatedAt_ASC" | "updatedAt_DESC" | "voteType_ASC" | "voteType_DESC"
   VotingStatus: "IN_PROGRESS" | "LOSS" | "WIN"
 }
 

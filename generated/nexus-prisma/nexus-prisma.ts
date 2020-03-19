@@ -2419,6 +2419,8 @@ export interface VoteWhereInput {
   bracket?: BracketWhereInput | null
   user?: UserWhereInput | null
   AND?: VoteWhereInput[]
+  OR?: VoteWhereInput[]
+  NOT?: VoteWhereInput[]
 }
 export type VoteWhereInputInputObject =
   | Extract<keyof VoteWhereInput, string>
@@ -2442,6 +2444,8 @@ export type VoteWhereInputInputObject =
   | { name: 'bracket', alias?: string  } 
   | { name: 'user', alias?: string  } 
   | { name: 'AND', alias?: string  } 
+  | { name: 'OR', alias?: string  } 
+  | { name: 'NOT', alias?: string  } 
   
 export interface SongWhereInput {
   id?: string | null
@@ -2512,8 +2516,12 @@ export interface SongWhereInput {
   votingStatus_not?: prisma.VotingStatus | null
   votingStatus_in?: prisma.VotingStatus[]
   votingStatus_not_in?: prisma.VotingStatus[]
+  votes_every?: VoteWhereInput | null
   votes_some?: VoteWhereInput | null
+  votes_none?: VoteWhereInput | null
   AND?: SongWhereInput[]
+  OR?: SongWhereInput[]
+  NOT?: SongWhereInput[]
 }
 export type SongWhereInputInputObject =
   | Extract<keyof SongWhereInput, string>
@@ -2585,8 +2593,12 @@ export type SongWhereInputInputObject =
   | { name: 'votingStatus_not', alias?: string  } 
   | { name: 'votingStatus_in', alias?: string  } 
   | { name: 'votingStatus_not_in', alias?: string  } 
+  | { name: 'votes_every', alias?: string  } 
   | { name: 'votes_some', alias?: string  } 
+  | { name: 'votes_none', alias?: string  } 
   | { name: 'AND', alias?: string  } 
+  | { name: 'OR', alias?: string  } 
+  | { name: 'NOT', alias?: string  } 
   
 export interface BracketWhereInput {
   id?: string | null
@@ -2604,7 +2616,9 @@ export interface BracketWhereInput {
   id_ends_with?: string | null
   id_not_ends_with?: string | null
   user?: UserWhereInput | null
+  songs_every?: SongWhereInput | null
   songs_some?: SongWhereInput | null
+  songs_none?: SongWhereInput | null
   roundTime?: number | null
   roundTime_not?: number | null
   roundTime_in?: number[]
@@ -2616,6 +2630,8 @@ export interface BracketWhereInput {
   active?: boolean | null
   active_not?: boolean | null
   AND?: BracketWhereInput[]
+  OR?: BracketWhereInput[]
+  NOT?: BracketWhereInput[]
 }
 export type BracketWhereInputInputObject =
   | Extract<keyof BracketWhereInput, string>
@@ -2634,7 +2650,9 @@ export type BracketWhereInputInputObject =
   | { name: 'id_ends_with', alias?: string  } 
   | { name: 'id_not_ends_with', alias?: string  } 
   | { name: 'user', alias?: string  } 
+  | { name: 'songs_every', alias?: string  } 
   | { name: 'songs_some', alias?: string  } 
+  | { name: 'songs_none', alias?: string  } 
   | { name: 'roundTime', alias?: string  } 
   | { name: 'roundTime_not', alias?: string  } 
   | { name: 'roundTime_in', alias?: string  } 
@@ -2646,6 +2664,8 @@ export type BracketWhereInputInputObject =
   | { name: 'active', alias?: string  } 
   | { name: 'active_not', alias?: string  } 
   | { name: 'AND', alias?: string  } 
+  | { name: 'OR', alias?: string  } 
+  | { name: 'NOT', alias?: string  } 
   
 export interface UserWhereInput {
   id?: string | null
@@ -2704,9 +2724,15 @@ export interface UserWhereInput {
   password_not_starts_with?: string | null
   password_ends_with?: string | null
   password_not_ends_with?: string | null
+  votes_every?: VoteWhereInput | null
   votes_some?: VoteWhereInput | null
+  votes_none?: VoteWhereInput | null
+  brackets_every?: BracketWhereInput | null
   brackets_some?: BracketWhereInput | null
+  brackets_none?: BracketWhereInput | null
   AND?: UserWhereInput[]
+  OR?: UserWhereInput[]
+  NOT?: UserWhereInput[]
 }
 export type UserWhereInputInputObject =
   | Extract<keyof UserWhereInput, string>
@@ -2766,9 +2792,15 @@ export type UserWhereInputInputObject =
   | { name: 'password_not_starts_with', alias?: string  } 
   | { name: 'password_ends_with', alias?: string  } 
   | { name: 'password_not_ends_with', alias?: string  } 
+  | { name: 'votes_every', alias?: string  } 
   | { name: 'votes_some', alias?: string  } 
+  | { name: 'votes_none', alias?: string  } 
+  | { name: 'brackets_every', alias?: string  } 
   | { name: 'brackets_some', alias?: string  } 
+  | { name: 'brackets_none', alias?: string  } 
   | { name: 'AND', alias?: string  } 
+  | { name: 'OR', alias?: string  } 
+  | { name: 'NOT', alias?: string  } 
   
 export interface UserWhereUniqueInput {
   id?: string | null
@@ -3805,6 +3837,8 @@ export interface VoteSubscriptionWhereInput {
   updatedFields_contains_some?: string[]
   node?: VoteWhereInput | null
   AND?: VoteSubscriptionWhereInput[]
+  OR?: VoteSubscriptionWhereInput[]
+  NOT?: VoteSubscriptionWhereInput[]
 }
 export type VoteSubscriptionWhereInputInputObject =
   | Extract<keyof VoteSubscriptionWhereInput, string>
@@ -3814,6 +3848,8 @@ export type VoteSubscriptionWhereInputInputObject =
   | { name: 'updatedFields_contains_some', alias?: string  } 
   | { name: 'node', alias?: string  } 
   | { name: 'AND', alias?: string  } 
+  | { name: 'OR', alias?: string  } 
+  | { name: 'NOT', alias?: string  } 
   
 export interface UserSubscriptionWhereInput {
   mutation_in?: prisma.MutationType[]
@@ -3822,6 +3858,8 @@ export interface UserSubscriptionWhereInput {
   updatedFields_contains_some?: string[]
   node?: UserWhereInput | null
   AND?: UserSubscriptionWhereInput[]
+  OR?: UserSubscriptionWhereInput[]
+  NOT?: UserSubscriptionWhereInput[]
 }
 export type UserSubscriptionWhereInputInputObject =
   | Extract<keyof UserSubscriptionWhereInput, string>
@@ -3831,6 +3869,8 @@ export type UserSubscriptionWhereInputInputObject =
   | { name: 'updatedFields_contains_some', alias?: string  } 
   | { name: 'node', alias?: string  } 
   | { name: 'AND', alias?: string  } 
+  | { name: 'OR', alias?: string  } 
+  | { name: 'NOT', alias?: string  } 
   
 export interface SongSubscriptionWhereInput {
   mutation_in?: prisma.MutationType[]
@@ -3839,6 +3879,8 @@ export interface SongSubscriptionWhereInput {
   updatedFields_contains_some?: string[]
   node?: SongWhereInput | null
   AND?: SongSubscriptionWhereInput[]
+  OR?: SongSubscriptionWhereInput[]
+  NOT?: SongSubscriptionWhereInput[]
 }
 export type SongSubscriptionWhereInputInputObject =
   | Extract<keyof SongSubscriptionWhereInput, string>
@@ -3848,6 +3890,8 @@ export type SongSubscriptionWhereInputInputObject =
   | { name: 'updatedFields_contains_some', alias?: string  } 
   | { name: 'node', alias?: string  } 
   | { name: 'AND', alias?: string  } 
+  | { name: 'OR', alias?: string  } 
+  | { name: 'NOT', alias?: string  } 
   
 export interface BracketSubscriptionWhereInput {
   mutation_in?: prisma.MutationType[]
@@ -3856,6 +3900,8 @@ export interface BracketSubscriptionWhereInput {
   updatedFields_contains_some?: string[]
   node?: BracketWhereInput | null
   AND?: BracketSubscriptionWhereInput[]
+  OR?: BracketSubscriptionWhereInput[]
+  NOT?: BracketSubscriptionWhereInput[]
 }
 export type BracketSubscriptionWhereInputInputObject =
   | Extract<keyof BracketSubscriptionWhereInput, string>
@@ -3865,6 +3911,8 @@ export type BracketSubscriptionWhereInputInputObject =
   | { name: 'updatedFields_contains_some', alias?: string  } 
   | { name: 'node', alias?: string  } 
   | { name: 'AND', alias?: string  } 
+  | { name: 'OR', alias?: string  } 
+  | { name: 'NOT', alias?: string  } 
   
 
 export type VotingStatusValues =
@@ -3877,6 +3925,10 @@ export type VoteOrderByInputValues =
   | 'id_DESC'
   | 'voteType_ASC'
   | 'voteType_DESC'
+  | 'createdAt_ASC'
+  | 'createdAt_DESC'
+  | 'updatedAt_ASC'
+  | 'updatedAt_DESC'
   
 export type BracketOrderByInputValues =
   | 'id_ASC'
@@ -3885,6 +3937,10 @@ export type BracketOrderByInputValues =
   | 'roundTime_DESC'
   | 'active_ASC'
   | 'active_DESC'
+  | 'createdAt_ASC'
+  | 'createdAt_DESC'
+  | 'updatedAt_ASC'
+  | 'updatedAt_DESC'
   
 export type SongOrderByInputValues =
   | 'id_ASC'
@@ -3899,6 +3955,10 @@ export type SongOrderByInputValues =
   | 'position_DESC'
   | 'votingStatus_ASC'
   | 'votingStatus_DESC'
+  | 'createdAt_ASC'
+  | 'createdAt_DESC'
+  | 'updatedAt_ASC'
+  | 'updatedAt_DESC'
   
 export type UserOrderByInputValues =
   | 'id_ASC'
@@ -3909,6 +3969,10 @@ export type UserOrderByInputValues =
   | 'email_DESC'
   | 'password_ASC'
   | 'password_DESC'
+  | 'createdAt_ASC'
+  | 'createdAt_DESC'
+  | 'updatedAt_ASC'
+  | 'updatedAt_DESC'
   
 export type MutationTypeValues =
   | 'CREATED'
