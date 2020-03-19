@@ -1,7 +1,8 @@
 {
   "name": "tracket-server",
   "profile": "default",
-  "regions": [
-    "us-west-1"
-  ]
+  "regions": ["us-west-1"],
+  "error_pages": {
+    "disable": true
+  }
 }
