@@ -1853,6 +1853,6 @@ export const models: Model[] = [
 export const Prisma = makePrismaClientClass<ClientConstructor<Prisma>>({
   typeDefs,
   models,
-  endpoint: `http://localhost:4466`
+  endpoint: `https://us1.prisma.sh/severiano-badajoz-5a7bca/tracket-server/dev`
 });
 export const prisma = new Prisma();

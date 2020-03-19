@@ -7,9 +7,9 @@ enum VotingStatus {
 type Vote {
   id: ID! @id
   voteType: Boolean
-  song: Song @relation(name: "VotedSong", link: INLINE)
-  bracket: Bracket @relation(link: INLINE)
-  user: User! @relation(name: "VotedUser")
+  song: Song 
+  bracket: Bracket 
+  user: User! 
 }
 
 type User {
@@ -17,8 +17,8 @@ type User {
   username: String! @unique
   email: String! @unique
   password: String!
-  votes: [Vote!]! @relation(name: "VotedUser", link: INLINE)
-  brackets: [Bracket!]! @relation(name: "BracketOwner", link:INLINE)
+  votes: [Vote!]! 
+  brackets: [Bracket!]! 
 }
 
 
@@ -29,13 +29,13 @@ type Song {
   album: String!
   position: Int!
   votingStatus: VotingStatus!
-  votes: [Vote]! @relation(name: "VotedSong")
+  votes: [Vote]! 
 }
 
 type Bracket {
   id: ID! @id
-  user: User! @relation(name: "BracketOwner")
-  songs: [Song!]! @relation(link: INLINE)
+  user: User! 
+  songs: [Song!]! 
   roundTime: Int!
   active: Boolean
   
