@@ -16,7 +16,10 @@ export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> &
 export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
+  bracket: (where?: BracketWhereInput) => Promise<boolean>;
+  song: (where?: SongWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
+  vote: (where?: VoteWhereInput) => Promise<boolean>;
 }
 
 export interface Node {}
@@ -38,6 +41,44 @@ export interface Prisma {
    * Queries
    */
 
+  bracket: (where: BracketWhereUniqueInput) => BracketNullablePromise;
+  brackets: (args?: {
+    where?: BracketWhereInput;
+    orderBy?: BracketOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Bracket>;
+  bracketsConnection: (args?: {
+    where?: BracketWhereInput;
+    orderBy?: BracketOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => BracketConnectionPromise;
+  song: (where: SongWhereUniqueInput) => SongNullablePromise;
+  songs: (args?: {
+    where?: SongWhereInput;
+    orderBy?: SongOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Song>;
+  songsConnection: (args?: {
+    where?: SongWhereInput;
+    orderBy?: SongOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => SongConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserNullablePromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -57,12 +98,63 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => UserConnectionPromise;
+  vote: (where: VoteWhereUniqueInput) => VoteNullablePromise;
+  votes: (args?: {
+    where?: VoteWhereInput;
+    orderBy?: VoteOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Vote>;
+  votesConnection: (args?: {
+    where?: VoteWhereInput;
+    orderBy?: VoteOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => VoteConnectionPromise;
   node: (args: { id: ID_Output }) => Node;
 
   /**
    * Mutations
    */
 
+  createBracket: (data: BracketCreateInput) => BracketPromise;
+  updateBracket: (args: {
+    data: BracketUpdateInput;
+    where: BracketWhereUniqueInput;
+  }) => BracketPromise;
+  updateManyBrackets: (args: {
+    data: BracketUpdateManyMutationInput;
+    where?: BracketWhereInput;
+  }) => BatchPayloadPromise;
+  upsertBracket: (args: {
+    where: BracketWhereUniqueInput;
+    create: BracketCreateInput;
+    update: BracketUpdateInput;
+  }) => BracketPromise;
+  deleteBracket: (where: BracketWhereUniqueInput) => BracketPromise;
+  deleteManyBrackets: (where?: BracketWhereInput) => BatchPayloadPromise;
+  createSong: (data: SongCreateInput) => SongPromise;
+  updateSong: (args: {
+    data: SongUpdateInput;
+    where: SongWhereUniqueInput;
+  }) => SongPromise;
+  updateManySongs: (args: {
+    data: SongUpdateManyMutationInput;
+    where?: SongWhereInput;
+  }) => BatchPayloadPromise;
+  upsertSong: (args: {
+    where: SongWhereUniqueInput;
+    create: SongCreateInput;
+    update: SongUpdateInput;
+  }) => SongPromise;
+  deleteSong: (where: SongWhereUniqueInput) => SongPromise;
+  deleteManySongs: (where?: SongWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -79,6 +171,22 @@ export interface Prisma {
   }) => UserPromise;
   deleteUser: (where: UserWhereUniqueInput) => UserPromise;
   deleteManyUsers: (where?: UserWhereInput) => BatchPayloadPromise;
+  createVote: (data: VoteCreateInput) => VotePromise;
+  updateVote: (args: {
+    data: VoteUpdateInput;
+    where: VoteWhereUniqueInput;
+  }) => VotePromise;
+  updateManyVotes: (args: {
+    data: VoteUpdateManyMutationInput;
+    where?: VoteWhereInput;
+  }) => BatchPayloadPromise;
+  upsertVote: (args: {
+    where: VoteWhereUniqueInput;
+    create: VoteCreateInput;
+    update: VoteUpdateInput;
+  }) => VotePromise;
+  deleteVote: (where: VoteWhereUniqueInput) => VotePromise;
+  deleteManyVotes: (where?: VoteWhereInput) => BatchPayloadPromise;
 
   /**
    * Subscriptions
@@ -88,9 +196,18 @@ export interface Prisma {
 }
 
 export interface Subscription {
+  bracket: (
+    where?: BracketSubscriptionWhereInput
+  ) => BracketSubscriptionPayloadSubscription;
+  song: (
+    where?: SongSubscriptionWhereInput
+  ) => SongSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
+  vote: (
+    where?: VoteSubscriptionWhereInput
+  ) => VoteSubscriptionPayloadSubscription;
 }
 
 export interface ClientConstructor<T> {
@@ -101,21 +218,354 @@ export interface ClientConstructor<T> {
  * Types
  */
 
-export type UserOrderByInput = "id_ASC" | "id_DESC" | "name_ASC" | "name_DESC";
+export type SongOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "spotifyID_ASC"
+  | "spotifyID_DESC"
+  | "title_ASC"
+  | "title_DESC"
+  | "album_ASC"
+  | "album_DESC"
+  | "position_ASC"
+  | "position_DESC"
+  | "votingStatus_ASC"
+  | "votingStatus_DESC";
+
+export type VotingStatus = "WIN" | "LOSS" | "IN_PROGRESS";
+
+export type VoteOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "voteType_ASC"
+  | "voteType_DESC";
+
+export type BracketOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "roundTime_ASC"
+  | "roundTime_DESC"
+  | "active_ASC"
+  | "active_DESC";
+
+export type UserOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "username_ASC"
+  | "username_DESC"
+  | "email_ASC"
+  | "email_DESC"
+  | "password_ASC"
+  | "password_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface UserCreateInput {
-  id?: Maybe<ID_Input>;
-  name: String;
+export interface VoteUpdateWithoutSongDataInput {
+  voteType?: Maybe<Boolean>;
+  bracket?: Maybe<BracketUpdateOneInput>;
+  user?: Maybe<UserUpdateOneRequiredWithoutVotesInput>;
 }
 
-export interface UserUpdateInput {
-  name?: Maybe<String>;
+export type BracketWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface VoteCreateWithoutSongInput {
+  id?: Maybe<ID_Input>;
+  voteType?: Maybe<Boolean>;
+  bracket?: Maybe<BracketCreateOneInput>;
+  user: UserCreateOneWithoutVotesInput;
+}
+
+export interface SongUpdateManyMutationInput {
+  spotifyID?: Maybe<String>;
+  title?: Maybe<String>;
+  album?: Maybe<String>;
+  position?: Maybe<Int>;
+  votingStatus?: Maybe<VotingStatus>;
+}
+
+export interface BracketCreateOneInput {
+  create?: Maybe<BracketCreateInput>;
+  connect?: Maybe<BracketWhereUniqueInput>;
+}
+
+export interface UserUpdateOneRequiredWithoutVotesInput {
+  create?: Maybe<UserCreateWithoutVotesInput>;
+  update?: Maybe<UserUpdateWithoutVotesDataInput>;
+  upsert?: Maybe<UserUpsertWithoutVotesInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateOneWithoutVotesInput {
+  create?: Maybe<UserCreateWithoutVotesInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface VoteWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  voteType?: Maybe<Boolean>;
+  voteType_not?: Maybe<Boolean>;
+  song?: Maybe<SongWhereInput>;
+  bracket?: Maybe<BracketWhereInput>;
+  user?: Maybe<UserWhereInput>;
+  AND?: Maybe<VoteWhereInput[] | VoteWhereInput>;
+}
+
+export interface UserCreateWithoutVotesInput {
+  id?: Maybe<ID_Input>;
+  username: String;
+  email: String;
+  password: String;
+}
+
+export interface UserSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<UserWhereInput>;
+  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+}
+
+export interface BracketUpdateInput {
+  songs?: Maybe<SongUpdateManyInput>;
+  roundTime?: Maybe<Int>;
+  active?: Maybe<Boolean>;
+}
+
+export interface BracketSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<BracketWhereInput>;
+  AND?: Maybe<BracketSubscriptionWhereInput[] | BracketSubscriptionWhereInput>;
+}
+
+export interface SongUpdateManyInput {
+  create?: Maybe<SongCreateInput[] | SongCreateInput>;
+  update?: Maybe<
+    | SongUpdateWithWhereUniqueNestedInput[]
+    | SongUpdateWithWhereUniqueNestedInput
+  >;
+  upsert?: Maybe<
+    | SongUpsertWithWhereUniqueNestedInput[]
+    | SongUpsertWithWhereUniqueNestedInput
+  >;
+  delete?: Maybe<SongWhereUniqueInput[] | SongWhereUniqueInput>;
+  connect?: Maybe<SongWhereUniqueInput[] | SongWhereUniqueInput>;
+  set?: Maybe<SongWhereUniqueInput[] | SongWhereUniqueInput>;
+  disconnect?: Maybe<SongWhereUniqueInput[] | SongWhereUniqueInput>;
+  deleteMany?: Maybe<SongScalarWhereInput[] | SongScalarWhereInput>;
+  updateMany?: Maybe<
+    SongUpdateManyWithWhereNestedInput[] | SongUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface VoteUpdateInput {
+  voteType?: Maybe<Boolean>;
+  song?: Maybe<SongUpdateOneWithoutVotesInput>;
+  bracket?: Maybe<BracketUpdateOneInput>;
+  user?: Maybe<UserUpdateOneRequiredWithoutVotesInput>;
+}
+
+export interface SongUpdateWithWhereUniqueNestedInput {
+  where: SongWhereUniqueInput;
+  data: SongUpdateDataInput;
 }
 
 export interface UserUpdateManyMutationInput {
-  name?: Maybe<String>;
+  username?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+}
+
+export interface SongUpdateDataInput {
+  spotifyID?: Maybe<String>;
+  title?: Maybe<String>;
+  album?: Maybe<String>;
+  position?: Maybe<Int>;
+  votingStatus?: Maybe<VotingStatus>;
+  votes?: Maybe<VoteUpdateManyWithoutSongInput>;
+}
+
+export type SongWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface VoteUpdateManyWithoutSongInput {
+  create?: Maybe<VoteCreateWithoutSongInput[] | VoteCreateWithoutSongInput>;
+  delete?: Maybe<VoteWhereUniqueInput[] | VoteWhereUniqueInput>;
+  connect?: Maybe<VoteWhereUniqueInput[] | VoteWhereUniqueInput>;
+  set?: Maybe<VoteWhereUniqueInput[] | VoteWhereUniqueInput>;
+  disconnect?: Maybe<VoteWhereUniqueInput[] | VoteWhereUniqueInput>;
+  update?: Maybe<
+    | VoteUpdateWithWhereUniqueWithoutSongInput[]
+    | VoteUpdateWithWhereUniqueWithoutSongInput
+  >;
+  upsert?: Maybe<
+    | VoteUpsertWithWhereUniqueWithoutSongInput[]
+    | VoteUpsertWithWhereUniqueWithoutSongInput
+  >;
+  deleteMany?: Maybe<VoteScalarWhereInput[] | VoteScalarWhereInput>;
+  updateMany?: Maybe<
+    VoteUpdateManyWithWhereNestedInput[] | VoteUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface SongUpdateWithoutVotesDataInput {
+  spotifyID?: Maybe<String>;
+  title?: Maybe<String>;
+  album?: Maybe<String>;
+  position?: Maybe<Int>;
+  votingStatus?: Maybe<VotingStatus>;
+}
+
+export interface VoteUpdateWithWhereUniqueWithoutSongInput {
+  where: VoteWhereUniqueInput;
+  data: VoteUpdateWithoutSongDataInput;
+}
+
+export type UserWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+  username?: Maybe<String>;
+  email?: Maybe<String>;
+}>;
+
+export interface VoteCreateWithoutUserInput {
+  id?: Maybe<ID_Input>;
+  voteType?: Maybe<Boolean>;
+  song?: Maybe<SongCreateOneWithoutVotesInput>;
+  bracket?: Maybe<BracketCreateOneInput>;
+}
+
+export interface VoteUpdateWithoutUserDataInput {
+  voteType?: Maybe<Boolean>;
+  song?: Maybe<SongUpdateOneWithoutVotesInput>;
+  bracket?: Maybe<BracketUpdateOneInput>;
+}
+
+export interface BracketUpdateOneInput {
+  create?: Maybe<BracketCreateInput>;
+  update?: Maybe<BracketUpdateDataInput>;
+  upsert?: Maybe<BracketUpsertNestedInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<BracketWhereUniqueInput>;
+}
+
+export interface VoteUpdateManyWithoutUserInput {
+  create?: Maybe<VoteCreateWithoutUserInput[] | VoteCreateWithoutUserInput>;
+  delete?: Maybe<VoteWhereUniqueInput[] | VoteWhereUniqueInput>;
+  connect?: Maybe<VoteWhereUniqueInput[] | VoteWhereUniqueInput>;
+  set?: Maybe<VoteWhereUniqueInput[] | VoteWhereUniqueInput>;
+  disconnect?: Maybe<VoteWhereUniqueInput[] | VoteWhereUniqueInput>;
+  update?: Maybe<
+    | VoteUpdateWithWhereUniqueWithoutUserInput[]
+    | VoteUpdateWithWhereUniqueWithoutUserInput
+  >;
+  upsert?: Maybe<
+    | VoteUpsertWithWhereUniqueWithoutUserInput[]
+    | VoteUpsertWithWhereUniqueWithoutUserInput
+  >;
+  deleteMany?: Maybe<VoteScalarWhereInput[] | VoteScalarWhereInput>;
+  updateMany?: Maybe<
+    VoteUpdateManyWithWhereNestedInput[] | VoteUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface BracketUpdateDataInput {
+  songs?: Maybe<SongUpdateManyInput>;
+  roundTime?: Maybe<Int>;
+  active?: Maybe<Boolean>;
+}
+
+export interface UserUpdateInput {
+  username?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+  votes?: Maybe<VoteUpdateManyWithoutUserInput>;
+}
+
+export interface BracketUpsertNestedInput {
+  update: BracketUpdateDataInput;
+  create: BracketCreateInput;
+}
+
+export interface SongCreateOneWithoutVotesInput {
+  create?: Maybe<SongCreateWithoutVotesInput>;
+  connect?: Maybe<SongWhereUniqueInput>;
+}
+
+export interface BracketWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  songs_some?: Maybe<SongWhereInput>;
+  roundTime?: Maybe<Int>;
+  roundTime_not?: Maybe<Int>;
+  roundTime_in?: Maybe<Int[] | Int>;
+  roundTime_not_in?: Maybe<Int[] | Int>;
+  roundTime_lt?: Maybe<Int>;
+  roundTime_lte?: Maybe<Int>;
+  roundTime_gt?: Maybe<Int>;
+  roundTime_gte?: Maybe<Int>;
+  active?: Maybe<Boolean>;
+  active_not?: Maybe<Boolean>;
+  AND?: Maybe<BracketWhereInput[] | BracketWhereInput>;
+}
+
+export interface BracketCreateInput {
+  id?: Maybe<ID_Input>;
+  songs?: Maybe<SongCreateManyInput>;
+  roundTime: Int;
+  active?: Maybe<Boolean>;
+}
+
+export interface UserUpdateWithoutVotesDataInput {
+  username?: Maybe<String>;
+  email?: Maybe<String>;
+  password?: Maybe<String>;
+}
+
+export interface SongCreateInput {
+  id?: Maybe<ID_Input>;
+  spotifyID: String;
+  title: String;
+  album: String;
+  position: Int;
+  votingStatus: VotingStatus;
+  votes?: Maybe<VoteCreateManyWithoutSongInput>;
+}
+
+export interface UserUpsertWithoutVotesInput {
+  update: UserUpdateWithoutVotesDataInput;
+  create: UserCreateWithoutVotesInput;
 }
 
 export interface UserWhereInput {
@@ -133,105 +583,397 @@ export interface UserWhereInput {
   id_not_starts_with?: Maybe<ID_Input>;
   id_ends_with?: Maybe<ID_Input>;
   id_not_ends_with?: Maybe<ID_Input>;
-  name?: Maybe<String>;
-  name_not?: Maybe<String>;
-  name_in?: Maybe<String[] | String>;
-  name_not_in?: Maybe<String[] | String>;
-  name_lt?: Maybe<String>;
-  name_lte?: Maybe<String>;
-  name_gt?: Maybe<String>;
-  name_gte?: Maybe<String>;
-  name_contains?: Maybe<String>;
-  name_not_contains?: Maybe<String>;
-  name_starts_with?: Maybe<String>;
-  name_not_starts_with?: Maybe<String>;
-  name_ends_with?: Maybe<String>;
-  name_not_ends_with?: Maybe<String>;
+  username?: Maybe<String>;
+  username_not?: Maybe<String>;
+  username_in?: Maybe<String[] | String>;
+  username_not_in?: Maybe<String[] | String>;
+  username_lt?: Maybe<String>;
+  username_lte?: Maybe<String>;
+  username_gt?: Maybe<String>;
+  username_gte?: Maybe<String>;
+  username_contains?: Maybe<String>;
+  username_not_contains?: Maybe<String>;
+  username_starts_with?: Maybe<String>;
+  username_not_starts_with?: Maybe<String>;
+  username_ends_with?: Maybe<String>;
+  username_not_ends_with?: Maybe<String>;
+  email?: Maybe<String>;
+  email_not?: Maybe<String>;
+  email_in?: Maybe<String[] | String>;
+  email_not_in?: Maybe<String[] | String>;
+  email_lt?: Maybe<String>;
+  email_lte?: Maybe<String>;
+  email_gt?: Maybe<String>;
+  email_gte?: Maybe<String>;
+  email_contains?: Maybe<String>;
+  email_not_contains?: Maybe<String>;
+  email_starts_with?: Maybe<String>;
+  email_not_starts_with?: Maybe<String>;
+  email_ends_with?: Maybe<String>;
+  email_not_ends_with?: Maybe<String>;
+  password?: Maybe<String>;
+  password_not?: Maybe<String>;
+  password_in?: Maybe<String[] | String>;
+  password_not_in?: Maybe<String[] | String>;
+  password_lt?: Maybe<String>;
+  password_lte?: Maybe<String>;
+  password_gt?: Maybe<String>;
+  password_gte?: Maybe<String>;
+  password_contains?: Maybe<String>;
+  password_not_contains?: Maybe<String>;
+  password_starts_with?: Maybe<String>;
+  password_not_starts_with?: Maybe<String>;
+  password_ends_with?: Maybe<String>;
+  password_not_ends_with?: Maybe<String>;
+  votes_some?: Maybe<VoteWhereInput>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
 }
 
-export interface UserSubscriptionWhereInput {
+export interface VoteUpsertWithWhereUniqueWithoutSongInput {
+  where: VoteWhereUniqueInput;
+  update: VoteUpdateWithoutSongDataInput;
+  create: VoteCreateWithoutSongInput;
+}
+
+export interface SongSubscriptionWhereInput {
   mutation_in?: Maybe<MutationType[] | MutationType>;
   updatedFields_contains?: Maybe<String>;
   updatedFields_contains_every?: Maybe<String[] | String>;
   updatedFields_contains_some?: Maybe<String[] | String>;
-  node?: Maybe<UserWhereInput>;
-  AND?: Maybe<UserSubscriptionWhereInput[] | UserSubscriptionWhereInput>;
+  node?: Maybe<SongWhereInput>;
+  AND?: Maybe<SongSubscriptionWhereInput[] | SongSubscriptionWhereInput>;
 }
 
-export type UserWhereUniqueInput = AtLeastOne<{
+export interface VoteScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  voteType?: Maybe<Boolean>;
+  voteType_not?: Maybe<Boolean>;
+  AND?: Maybe<VoteScalarWhereInput[] | VoteScalarWhereInput>;
+  OR?: Maybe<VoteScalarWhereInput[] | VoteScalarWhereInput>;
+  NOT?: Maybe<VoteScalarWhereInput[] | VoteScalarWhereInput>;
+}
+
+export interface VoteCreateInput {
+  id?: Maybe<ID_Input>;
+  voteType?: Maybe<Boolean>;
+  song?: Maybe<SongCreateOneWithoutVotesInput>;
+  bracket?: Maybe<BracketCreateOneInput>;
+  user: UserCreateOneWithoutVotesInput;
+}
+
+export interface VoteUpdateManyWithWhereNestedInput {
+  where: VoteScalarWhereInput;
+  data: VoteUpdateManyDataInput;
+}
+
+export interface SongUpsertWithoutVotesInput {
+  update: SongUpdateWithoutVotesDataInput;
+  create: SongCreateWithoutVotesInput;
+}
+
+export interface VoteUpdateManyDataInput {
+  voteType?: Maybe<Boolean>;
+}
+
+export interface SongWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  spotifyID?: Maybe<String>;
+  spotifyID_not?: Maybe<String>;
+  spotifyID_in?: Maybe<String[] | String>;
+  spotifyID_not_in?: Maybe<String[] | String>;
+  spotifyID_lt?: Maybe<String>;
+  spotifyID_lte?: Maybe<String>;
+  spotifyID_gt?: Maybe<String>;
+  spotifyID_gte?: Maybe<String>;
+  spotifyID_contains?: Maybe<String>;
+  spotifyID_not_contains?: Maybe<String>;
+  spotifyID_starts_with?: Maybe<String>;
+  spotifyID_not_starts_with?: Maybe<String>;
+  spotifyID_ends_with?: Maybe<String>;
+  spotifyID_not_ends_with?: Maybe<String>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
+  album?: Maybe<String>;
+  album_not?: Maybe<String>;
+  album_in?: Maybe<String[] | String>;
+  album_not_in?: Maybe<String[] | String>;
+  album_lt?: Maybe<String>;
+  album_lte?: Maybe<String>;
+  album_gt?: Maybe<String>;
+  album_gte?: Maybe<String>;
+  album_contains?: Maybe<String>;
+  album_not_contains?: Maybe<String>;
+  album_starts_with?: Maybe<String>;
+  album_not_starts_with?: Maybe<String>;
+  album_ends_with?: Maybe<String>;
+  album_not_ends_with?: Maybe<String>;
+  position?: Maybe<Int>;
+  position_not?: Maybe<Int>;
+  position_in?: Maybe<Int[] | Int>;
+  position_not_in?: Maybe<Int[] | Int>;
+  position_lt?: Maybe<Int>;
+  position_lte?: Maybe<Int>;
+  position_gt?: Maybe<Int>;
+  position_gte?: Maybe<Int>;
+  votingStatus?: Maybe<VotingStatus>;
+  votingStatus_not?: Maybe<VotingStatus>;
+  votingStatus_in?: Maybe<VotingStatus[] | VotingStatus>;
+  votingStatus_not_in?: Maybe<VotingStatus[] | VotingStatus>;
+  votes_some?: Maybe<VoteWhereInput>;
+  AND?: Maybe<SongWhereInput[] | SongWhereInput>;
+}
+
+export interface SongUpsertWithWhereUniqueNestedInput {
+  where: SongWhereUniqueInput;
+  update: SongUpdateDataInput;
+  create: SongCreateInput;
+}
+
+export type VoteWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
+
+export interface SongScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  spotifyID?: Maybe<String>;
+  spotifyID_not?: Maybe<String>;
+  spotifyID_in?: Maybe<String[] | String>;
+  spotifyID_not_in?: Maybe<String[] | String>;
+  spotifyID_lt?: Maybe<String>;
+  spotifyID_lte?: Maybe<String>;
+  spotifyID_gt?: Maybe<String>;
+  spotifyID_gte?: Maybe<String>;
+  spotifyID_contains?: Maybe<String>;
+  spotifyID_not_contains?: Maybe<String>;
+  spotifyID_starts_with?: Maybe<String>;
+  spotifyID_not_starts_with?: Maybe<String>;
+  spotifyID_ends_with?: Maybe<String>;
+  spotifyID_not_ends_with?: Maybe<String>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
+  album?: Maybe<String>;
+  album_not?: Maybe<String>;
+  album_in?: Maybe<String[] | String>;
+  album_not_in?: Maybe<String[] | String>;
+  album_lt?: Maybe<String>;
+  album_lte?: Maybe<String>;
+  album_gt?: Maybe<String>;
+  album_gte?: Maybe<String>;
+  album_contains?: Maybe<String>;
+  album_not_contains?: Maybe<String>;
+  album_starts_with?: Maybe<String>;
+  album_not_starts_with?: Maybe<String>;
+  album_ends_with?: Maybe<String>;
+  album_not_ends_with?: Maybe<String>;
+  position?: Maybe<Int>;
+  position_not?: Maybe<Int>;
+  position_in?: Maybe<Int[] | Int>;
+  position_not_in?: Maybe<Int[] | Int>;
+  position_lt?: Maybe<Int>;
+  position_lte?: Maybe<Int>;
+  position_gt?: Maybe<Int>;
+  position_gte?: Maybe<Int>;
+  votingStatus?: Maybe<VotingStatus>;
+  votingStatus_not?: Maybe<VotingStatus>;
+  votingStatus_in?: Maybe<VotingStatus[] | VotingStatus>;
+  votingStatus_not_in?: Maybe<VotingStatus[] | VotingStatus>;
+  AND?: Maybe<SongScalarWhereInput[] | SongScalarWhereInput>;
+  OR?: Maybe<SongScalarWhereInput[] | SongScalarWhereInput>;
+  NOT?: Maybe<SongScalarWhereInput[] | SongScalarWhereInput>;
+}
+
+export interface VoteCreateManyWithoutSongInput {
+  create?: Maybe<VoteCreateWithoutSongInput[] | VoteCreateWithoutSongInput>;
+  connect?: Maybe<VoteWhereUniqueInput[] | VoteWhereUniqueInput>;
+}
+
+export interface SongUpdateManyWithWhereNestedInput {
+  where: SongScalarWhereInput;
+  data: SongUpdateManyDataInput;
+}
+
+export interface VoteUpdateManyMutationInput {
+  voteType?: Maybe<Boolean>;
+}
+
+export interface SongUpdateManyDataInput {
+  spotifyID?: Maybe<String>;
+  title?: Maybe<String>;
+  album?: Maybe<String>;
+  position?: Maybe<Int>;
+  votingStatus?: Maybe<VotingStatus>;
+}
+
+export interface SongUpdateOneWithoutVotesInput {
+  create?: Maybe<SongCreateWithoutVotesInput>;
+  update?: Maybe<SongUpdateWithoutVotesDataInput>;
+  upsert?: Maybe<SongUpsertWithoutVotesInput>;
+  delete?: Maybe<Boolean>;
+  disconnect?: Maybe<Boolean>;
+  connect?: Maybe<SongWhereUniqueInput>;
+}
+
+export interface SongUpdateInput {
+  spotifyID?: Maybe<String>;
+  title?: Maybe<String>;
+  album?: Maybe<String>;
+  position?: Maybe<Int>;
+  votingStatus?: Maybe<VotingStatus>;
+  votes?: Maybe<VoteUpdateManyWithoutSongInput>;
+}
+
+export interface UserCreateInput {
+  id?: Maybe<ID_Input>;
+  username: String;
+  email: String;
+  password: String;
+  votes?: Maybe<VoteCreateManyWithoutUserInput>;
+}
+
+export interface VoteCreateManyWithoutUserInput {
+  create?: Maybe<VoteCreateWithoutUserInput[] | VoteCreateWithoutUserInput>;
+  connect?: Maybe<VoteWhereUniqueInput[] | VoteWhereUniqueInput>;
+}
+
+export interface BracketUpdateManyMutationInput {
+  roundTime?: Maybe<Int>;
+  active?: Maybe<Boolean>;
+}
+
+export interface VoteUpdateWithWhereUniqueWithoutUserInput {
+  where: VoteWhereUniqueInput;
+  data: VoteUpdateWithoutUserDataInput;
+}
+
+export interface VoteUpsertWithWhereUniqueWithoutUserInput {
+  where: VoteWhereUniqueInput;
+  update: VoteUpdateWithoutUserDataInput;
+  create: VoteCreateWithoutUserInput;
+}
+
+export interface VoteSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<VoteWhereInput>;
+  AND?: Maybe<VoteSubscriptionWhereInput[] | VoteSubscriptionWhereInput>;
+}
+
+export interface SongCreateManyInput {
+  create?: Maybe<SongCreateInput[] | SongCreateInput>;
+  connect?: Maybe<SongWhereUniqueInput[] | SongWhereUniqueInput>;
+}
+
+export interface SongCreateWithoutVotesInput {
+  id?: Maybe<ID_Input>;
+  spotifyID: String;
+  title: String;
+  album: String;
+  position: Int;
+  votingStatus: VotingStatus;
+}
 
 export interface NodeNode {
   id: ID_Output;
 }
 
-export interface AggregateUser {
-  count: Int;
-}
-
-export interface AggregateUserPromise
-  extends Promise<AggregateUser>,
-    Fragmentable {
-  count: () => Promise<Int>;
-}
-
-export interface AggregateUserSubscription
-  extends Promise<AsyncIterator<AggregateUser>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Int>>;
-}
-
-export interface BatchPayload {
-  count: Long;
-}
-
-export interface BatchPayloadPromise
-  extends Promise<BatchPayload>,
-    Fragmentable {
-  count: () => Promise<Long>;
-}
-
-export interface BatchPayloadSubscription
-  extends Promise<AsyncIterator<BatchPayload>>,
-    Fragmentable {
-  count: () => Promise<AsyncIterator<Long>>;
-}
-
-export interface UserPreviousValues {
+export interface VotePreviousValues {
   id: ID_Output;
-  name: String;
+  voteType?: Boolean;
 }
 
-export interface UserPreviousValuesPromise
-  extends Promise<UserPreviousValues>,
+export interface VotePreviousValuesPromise
+  extends Promise<VotePreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
+  voteType: () => Promise<Boolean>;
 }
 
-export interface UserPreviousValuesSubscription
-  extends Promise<AsyncIterator<UserPreviousValues>>,
+export interface VotePreviousValuesSubscription
+  extends Promise<AsyncIterator<VotePreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
+  voteType: () => Promise<AsyncIterator<Boolean>>;
 }
 
-export interface UserEdge {
-  node: User;
+export interface BracketEdge {
+  node: Bracket;
   cursor: String;
 }
 
-export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
-  node: <T = UserPromise>() => T;
+export interface BracketEdgePromise extends Promise<BracketEdge>, Fragmentable {
+  node: <T = BracketPromise>() => T;
   cursor: () => Promise<String>;
 }
 
-export interface UserEdgeSubscription
-  extends Promise<AsyncIterator<UserEdge>>,
+export interface BracketEdgeSubscription
+  extends Promise<AsyncIterator<BracketEdge>>,
     Fragmentable {
-  node: <T = UserSubscription>() => T;
+  node: <T = BracketSubscription>() => T;
   cursor: () => Promise<AsyncIterator<String>>;
 }
 
@@ -260,51 +1002,6 @@ export interface UserSubscriptionPayloadSubscription
   previousValues: <T = UserPreviousValuesSubscription>() => T;
 }
 
-export interface User {
-  id: ID_Output;
-  name: String;
-}
-
-export interface UserPromise extends Promise<User>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-}
-
-export interface UserSubscription
-  extends Promise<AsyncIterator<User>>,
-    Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  name: () => Promise<AsyncIterator<String>>;
-}
-
-export interface UserNullablePromise
-  extends Promise<User | null>,
-    Fragmentable {
-  id: () => Promise<ID_Output>;
-  name: () => Promise<String>;
-}
-
-export interface UserConnection {
-  pageInfo: PageInfo;
-  edges: UserEdge[];
-}
-
-export interface UserConnectionPromise
-  extends Promise<UserConnection>,
-    Fragmentable {
-  pageInfo: <T = PageInfoPromise>() => T;
-  edges: <T = FragmentableArray<UserEdge>>() => T;
-  aggregate: <T = AggregateUserPromise>() => T;
-}
-
-export interface UserConnectionSubscription
-  extends Promise<AsyncIterator<UserConnection>>,
-    Fragmentable {
-  pageInfo: <T = PageInfoSubscription>() => T;
-  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
-  aggregate: <T = AggregateUserSubscription>() => T;
-}
-
 export interface PageInfo {
   hasNextPage: Boolean;
   hasPreviousPage: Boolean;
@@ -328,10 +1025,592 @@ export interface PageInfoSubscription
   endCursor: () => Promise<AsyncIterator<String>>;
 }
 
+export interface BracketConnection {
+  pageInfo: PageInfo;
+  edges: BracketEdge[];
+}
+
+export interface BracketConnectionPromise
+  extends Promise<BracketConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<BracketEdge>>() => T;
+  aggregate: <T = AggregateBracketPromise>() => T;
+}
+
+export interface BracketConnectionSubscription
+  extends Promise<AsyncIterator<BracketConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<BracketEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateBracketSubscription>() => T;
+}
+
+export interface BatchPayload {
+  count: Long;
+}
+
+export interface BatchPayloadPromise
+  extends Promise<BatchPayload>,
+    Fragmentable {
+  count: () => Promise<Long>;
+}
+
+export interface BatchPayloadSubscription
+  extends Promise<AsyncIterator<BatchPayload>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Long>>;
+}
+
+export interface AggregateVote {
+  count: Int;
+}
+
+export interface AggregateVotePromise
+  extends Promise<AggregateVote>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateVoteSubscription
+  extends Promise<AsyncIterator<AggregateVote>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface Song {
+  id: ID_Output;
+  spotifyID: String;
+  title: String;
+  album: String;
+  position: Int;
+  votingStatus: VotingStatus;
+}
+
+export interface SongPromise extends Promise<Song>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  spotifyID: () => Promise<String>;
+  title: () => Promise<String>;
+  album: () => Promise<String>;
+  position: () => Promise<Int>;
+  votingStatus: () => Promise<VotingStatus>;
+  votes: <T = FragmentableArray<Vote>>(args?: {
+    where?: VoteWhereInput;
+    orderBy?: VoteOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface SongSubscription
+  extends Promise<AsyncIterator<Song>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  spotifyID: () => Promise<AsyncIterator<String>>;
+  title: () => Promise<AsyncIterator<String>>;
+  album: () => Promise<AsyncIterator<String>>;
+  position: () => Promise<AsyncIterator<Int>>;
+  votingStatus: () => Promise<AsyncIterator<VotingStatus>>;
+  votes: <T = Promise<AsyncIterator<VoteSubscription>>>(args?: {
+    where?: VoteWhereInput;
+    orderBy?: VoteOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface SongNullablePromise
+  extends Promise<Song | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  spotifyID: () => Promise<String>;
+  title: () => Promise<String>;
+  album: () => Promise<String>;
+  position: () => Promise<Int>;
+  votingStatus: () => Promise<VotingStatus>;
+  votes: <T = FragmentableArray<Vote>>(args?: {
+    where?: VoteWhereInput;
+    orderBy?: VoteOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface VoteConnection {
+  pageInfo: PageInfo;
+  edges: VoteEdge[];
+}
+
+export interface VoteConnectionPromise
+  extends Promise<VoteConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<VoteEdge>>() => T;
+  aggregate: <T = AggregateVotePromise>() => T;
+}
+
+export interface VoteConnectionSubscription
+  extends Promise<AsyncIterator<VoteConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<VoteEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateVoteSubscription>() => T;
+}
+
+export interface User {
+  id: ID_Output;
+  username: String;
+  email: String;
+  password: String;
+}
+
+export interface UserPromise extends Promise<User>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  username: () => Promise<String>;
+  email: () => Promise<String>;
+  password: () => Promise<String>;
+  votes: <T = FragmentableArray<Vote>>(args?: {
+    where?: VoteWhereInput;
+    orderBy?: VoteOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface UserSubscription
+  extends Promise<AsyncIterator<User>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  username: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
+  votes: <T = Promise<AsyncIterator<VoteSubscription>>>(args?: {
+    where?: VoteWhereInput;
+    orderBy?: VoteOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface UserNullablePromise
+  extends Promise<User | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  username: () => Promise<String>;
+  email: () => Promise<String>;
+  password: () => Promise<String>;
+  votes: <T = FragmentableArray<Vote>>(args?: {
+    where?: VoteWhereInput;
+    orderBy?: VoteOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+}
+
+export interface UserEdge {
+  node: User;
+  cursor: String;
+}
+
+export interface UserEdgePromise extends Promise<UserEdge>, Fragmentable {
+  node: <T = UserPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface UserEdgeSubscription
+  extends Promise<AsyncIterator<UserEdge>>,
+    Fragmentable {
+  node: <T = UserSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface Bracket {
+  id: ID_Output;
+  roundTime: Int;
+  active?: Boolean;
+}
+
+export interface BracketPromise extends Promise<Bracket>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  songs: <T = FragmentableArray<Song>>(args?: {
+    where?: SongWhereInput;
+    orderBy?: SongOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  roundTime: () => Promise<Int>;
+  active: () => Promise<Boolean>;
+}
+
+export interface BracketSubscription
+  extends Promise<AsyncIterator<Bracket>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  songs: <T = Promise<AsyncIterator<SongSubscription>>>(args?: {
+    where?: SongWhereInput;
+    orderBy?: SongOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  roundTime: () => Promise<AsyncIterator<Int>>;
+  active: () => Promise<AsyncIterator<Boolean>>;
+}
+
+export interface BracketNullablePromise
+  extends Promise<Bracket | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  songs: <T = FragmentableArray<Song>>(args?: {
+    where?: SongWhereInput;
+    orderBy?: SongOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  roundTime: () => Promise<Int>;
+  active: () => Promise<Boolean>;
+}
+
+export interface AggregateSong {
+  count: Int;
+}
+
+export interface AggregateSongPromise
+  extends Promise<AggregateSong>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateSongSubscription
+  extends Promise<AsyncIterator<AggregateSong>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface BracketSubscriptionPayload {
+  mutation: MutationType;
+  node: Bracket;
+  updatedFields: String[];
+  previousValues: BracketPreviousValues;
+}
+
+export interface BracketSubscriptionPayloadPromise
+  extends Promise<BracketSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = BracketPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = BracketPreviousValuesPromise>() => T;
+}
+
+export interface BracketSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<BracketSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = BracketSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = BracketPreviousValuesSubscription>() => T;
+}
+
+export interface SongConnection {
+  pageInfo: PageInfo;
+  edges: SongEdge[];
+}
+
+export interface SongConnectionPromise
+  extends Promise<SongConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<SongEdge>>() => T;
+  aggregate: <T = AggregateSongPromise>() => T;
+}
+
+export interface SongConnectionSubscription
+  extends Promise<AsyncIterator<SongConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<SongEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateSongSubscription>() => T;
+}
+
+export interface BracketPreviousValues {
+  id: ID_Output;
+  roundTime: Int;
+  active?: Boolean;
+}
+
+export interface BracketPreviousValuesPromise
+  extends Promise<BracketPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  roundTime: () => Promise<Int>;
+  active: () => Promise<Boolean>;
+}
+
+export interface BracketPreviousValuesSubscription
+  extends Promise<AsyncIterator<BracketPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  roundTime: () => Promise<AsyncIterator<Int>>;
+  active: () => Promise<AsyncIterator<Boolean>>;
+}
+
+export interface VoteSubscriptionPayload {
+  mutation: MutationType;
+  node: Vote;
+  updatedFields: String[];
+  previousValues: VotePreviousValues;
+}
+
+export interface VoteSubscriptionPayloadPromise
+  extends Promise<VoteSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = VotePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = VotePreviousValuesPromise>() => T;
+}
+
+export interface VoteSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<VoteSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = VoteSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = VotePreviousValuesSubscription>() => T;
+}
+
+export interface AggregateUser {
+  count: Int;
+}
+
+export interface AggregateUserPromise
+  extends Promise<AggregateUser>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateUserSubscription
+  extends Promise<AsyncIterator<AggregateUser>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface UserPreviousValues {
+  id: ID_Output;
+  username: String;
+  email: String;
+  password: String;
+}
+
+export interface UserPreviousValuesPromise
+  extends Promise<UserPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  username: () => Promise<String>;
+  email: () => Promise<String>;
+  password: () => Promise<String>;
+}
+
+export interface UserPreviousValuesSubscription
+  extends Promise<AsyncIterator<UserPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  username: () => Promise<AsyncIterator<String>>;
+  email: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
+}
+
+export interface SongPreviousValues {
+  id: ID_Output;
+  spotifyID: String;
+  title: String;
+  album: String;
+  position: Int;
+  votingStatus: VotingStatus;
+}
+
+export interface SongPreviousValuesPromise
+  extends Promise<SongPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  spotifyID: () => Promise<String>;
+  title: () => Promise<String>;
+  album: () => Promise<String>;
+  position: () => Promise<Int>;
+  votingStatus: () => Promise<VotingStatus>;
+}
+
+export interface SongPreviousValuesSubscription
+  extends Promise<AsyncIterator<SongPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  spotifyID: () => Promise<AsyncIterator<String>>;
+  title: () => Promise<AsyncIterator<String>>;
+  album: () => Promise<AsyncIterator<String>>;
+  position: () => Promise<AsyncIterator<Int>>;
+  votingStatus: () => Promise<AsyncIterator<VotingStatus>>;
+}
+
+export interface SongSubscriptionPayload {
+  mutation: MutationType;
+  node: Song;
+  updatedFields: String[];
+  previousValues: SongPreviousValues;
+}
+
+export interface SongSubscriptionPayloadPromise
+  extends Promise<SongSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = SongPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = SongPreviousValuesPromise>() => T;
+}
+
+export interface SongSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<SongSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = SongSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = SongPreviousValuesSubscription>() => T;
+}
+
+export interface Vote {
+  id: ID_Output;
+  voteType?: Boolean;
+}
+
+export interface VotePromise extends Promise<Vote>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  voteType: () => Promise<Boolean>;
+  song: <T = SongPromise>() => T;
+  bracket: <T = BracketPromise>() => T;
+  user: <T = UserPromise>() => T;
+}
+
+export interface VoteSubscription
+  extends Promise<AsyncIterator<Vote>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  voteType: () => Promise<AsyncIterator<Boolean>>;
+  song: <T = SongSubscription>() => T;
+  bracket: <T = BracketSubscription>() => T;
+  user: <T = UserSubscription>() => T;
+}
+
+export interface VoteNullablePromise
+  extends Promise<Vote | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  voteType: () => Promise<Boolean>;
+  song: <T = SongPromise>() => T;
+  bracket: <T = BracketPromise>() => T;
+  user: <T = UserPromise>() => T;
+}
+
+export interface UserConnection {
+  pageInfo: PageInfo;
+  edges: UserEdge[];
+}
+
+export interface UserConnectionPromise
+  extends Promise<UserConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<UserEdge>>() => T;
+  aggregate: <T = AggregateUserPromise>() => T;
+}
+
+export interface UserConnectionSubscription
+  extends Promise<AsyncIterator<UserConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<UserEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateUserSubscription>() => T;
+}
+
+export interface VoteEdge {
+  node: Vote;
+  cursor: String;
+}
+
+export interface VoteEdgePromise extends Promise<VoteEdge>, Fragmentable {
+  node: <T = VotePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface VoteEdgeSubscription
+  extends Promise<AsyncIterator<VoteEdge>>,
+    Fragmentable {
+  node: <T = VoteSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateBracket {
+  count: Int;
+}
+
+export interface AggregateBracketPromise
+  extends Promise<AggregateBracket>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateBracketSubscription
+  extends Promise<AsyncIterator<AggregateBracket>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface SongEdge {
+  node: Song;
+  cursor: String;
+}
+
+export interface SongEdgePromise extends Promise<SongEdge>, Fragmentable {
+  node: <T = SongPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface SongEdgeSubscription
+  extends Promise<AsyncIterator<SongEdge>>,
+    Fragmentable {
+  node: <T = SongSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
 /*
-The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+The `Boolean` scalar type represents `true` or `false`.
 */
-export type String = string;
+export type Boolean = boolean;
 
 export type Long = string;
 
@@ -342,14 +1621,14 @@ export type ID_Input = string | number;
 export type ID_Output = string;
 
 /*
+The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
+*/
+export type String = string;
+
+/*
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
 */
 export type Int = number;
-
-/*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
 
 /**
  * Model Metadata
@@ -357,7 +1636,23 @@ export type Boolean = boolean;
 
 export const models: Model[] = [
   {
+    name: "VotingStatus",
+    embedded: false
+  },
+  {
+    name: "Vote",
+    embedded: false
+  },
+  {
     name: "User",
+    embedded: false
+  },
+  {
+    name: "Song",
+    embedded: false
+  },
+  {
+    name: "Bracket",
     embedded: false
   }
 ];
