@@ -91,18 +91,34 @@ export interface NexusPrismaTypes {
       SongCreateWithoutVotesInput: SongCreateWithoutVotesInputInputObject
       BracketCreateOneInput: BracketCreateOneInputInputObject
       BracketCreateInput: BracketCreateInputInputObject
+      UserCreateOneWithoutBracketsInput: UserCreateOneWithoutBracketsInputInputObject
+      UserCreateWithoutBracketsInput: UserCreateWithoutBracketsInputInputObject
+      VoteCreateManyWithoutUserInput: VoteCreateManyWithoutUserInputInputObject
+      VoteCreateWithoutUserInput: VoteCreateWithoutUserInputInputObject
       SongCreateManyInput: SongCreateManyInputInputObject
       SongCreateInput: SongCreateInputInputObject
       VoteCreateManyWithoutSongInput: VoteCreateManyWithoutSongInputInputObject
       VoteCreateWithoutSongInput: VoteCreateWithoutSongInputInputObject
       UserCreateOneWithoutVotesInput: UserCreateOneWithoutVotesInputInputObject
       UserCreateWithoutVotesInput: UserCreateWithoutVotesInputInputObject
+      BracketCreateManyWithoutUserInput: BracketCreateManyWithoutUserInputInputObject
+      BracketCreateWithoutUserInput: BracketCreateWithoutUserInputInputObject
       VoteUpdateInput: VoteUpdateInputInputObject
       SongUpdateOneWithoutVotesInput: SongUpdateOneWithoutVotesInputInputObject
       SongUpdateWithoutVotesDataInput: SongUpdateWithoutVotesDataInputInputObject
       SongUpsertWithoutVotesInput: SongUpsertWithoutVotesInputInputObject
       BracketUpdateOneInput: BracketUpdateOneInputInputObject
       BracketUpdateDataInput: BracketUpdateDataInputInputObject
+      UserUpdateOneRequiredWithoutBracketsInput: UserUpdateOneRequiredWithoutBracketsInputInputObject
+      UserUpdateWithoutBracketsDataInput: UserUpdateWithoutBracketsDataInputInputObject
+      VoteUpdateManyWithoutUserInput: VoteUpdateManyWithoutUserInputInputObject
+      VoteUpdateWithWhereUniqueWithoutUserInput: VoteUpdateWithWhereUniqueWithoutUserInputInputObject
+      VoteUpdateWithoutUserDataInput: VoteUpdateWithoutUserDataInputInputObject
+      VoteUpsertWithWhereUniqueWithoutUserInput: VoteUpsertWithWhereUniqueWithoutUserInputInputObject
+      VoteScalarWhereInput: VoteScalarWhereInputInputObject
+      VoteUpdateManyWithWhereNestedInput: VoteUpdateManyWithWhereNestedInputInputObject
+      VoteUpdateManyDataInput: VoteUpdateManyDataInputInputObject
+      UserUpsertWithoutBracketsInput: UserUpsertWithoutBracketsInputInputObject
       SongUpdateManyInput: SongUpdateManyInputInputObject
       SongUpdateWithWhereUniqueNestedInput: SongUpdateWithWhereUniqueNestedInputInputObject
       SongUpdateDataInput: SongUpdateDataInputInputObject
@@ -111,11 +127,15 @@ export interface NexusPrismaTypes {
       VoteUpdateWithoutSongDataInput: VoteUpdateWithoutSongDataInputInputObject
       UserUpdateOneRequiredWithoutVotesInput: UserUpdateOneRequiredWithoutVotesInputInputObject
       UserUpdateWithoutVotesDataInput: UserUpdateWithoutVotesDataInputInputObject
+      BracketUpdateManyWithoutUserInput: BracketUpdateManyWithoutUserInputInputObject
+      BracketUpdateWithWhereUniqueWithoutUserInput: BracketUpdateWithWhereUniqueWithoutUserInputInputObject
+      BracketUpdateWithoutUserDataInput: BracketUpdateWithoutUserDataInputInputObject
+      BracketUpsertWithWhereUniqueWithoutUserInput: BracketUpsertWithWhereUniqueWithoutUserInputInputObject
+      BracketScalarWhereInput: BracketScalarWhereInputInputObject
+      BracketUpdateManyWithWhereNestedInput: BracketUpdateManyWithWhereNestedInputInputObject
+      BracketUpdateManyDataInput: BracketUpdateManyDataInputInputObject
       UserUpsertWithoutVotesInput: UserUpsertWithoutVotesInputInputObject
       VoteUpsertWithWhereUniqueWithoutSongInput: VoteUpsertWithWhereUniqueWithoutSongInputInputObject
-      VoteScalarWhereInput: VoteScalarWhereInputInputObject
-      VoteUpdateManyWithWhereNestedInput: VoteUpdateManyWithWhereNestedInputInputObject
-      VoteUpdateManyDataInput: VoteUpdateManyDataInputInputObject
       SongUpsertWithWhereUniqueNestedInput: SongUpsertWithWhereUniqueNestedInputInputObject
       SongScalarWhereInput: SongScalarWhereInputInputObject
       SongUpdateManyWithWhereNestedInput: SongUpdateManyWithWhereNestedInputInputObject
@@ -123,13 +143,7 @@ export interface NexusPrismaTypes {
       BracketUpsertNestedInput: BracketUpsertNestedInputInputObject
       VoteUpdateManyMutationInput: VoteUpdateManyMutationInputInputObject
       UserCreateInput: UserCreateInputInputObject
-      VoteCreateManyWithoutUserInput: VoteCreateManyWithoutUserInputInputObject
-      VoteCreateWithoutUserInput: VoteCreateWithoutUserInputInputObject
       UserUpdateInput: UserUpdateInputInputObject
-      VoteUpdateManyWithoutUserInput: VoteUpdateManyWithoutUserInputInputObject
-      VoteUpdateWithWhereUniqueWithoutUserInput: VoteUpdateWithWhereUniqueWithoutUserInputInputObject
-      VoteUpdateWithoutUserDataInput: VoteUpdateWithoutUserDataInputInputObject
-      VoteUpsertWithWhereUniqueWithoutUserInput: VoteUpsertWithWhereUniqueWithoutUserInputInputObject
       UserUpdateManyMutationInput: UserUpdateManyMutationInputInputObject
       SongUpdateInput: SongUpdateInputInputObject
       SongUpdateManyMutationInput: SongUpdateManyMutationInputInputObject
@@ -144,9 +158,9 @@ export interface NexusPrismaTypes {
   enumTypes: {
     VotingStatus: VotingStatusValues,
     VoteOrderByInput: VoteOrderByInputValues,
+    BracketOrderByInput: BracketOrderByInputValues,
     SongOrderByInput: SongOrderByInputValues,
     UserOrderByInput: UserOrderByInputValues,
-    BracketOrderByInput: BracketOrderByInputValues,
     MutationType: MutationTypeValues,
   }
 }
@@ -604,12 +618,14 @@ export interface SongFieldDetails {
 type BracketObject =
   | BracketFields
   | { name: 'id', args?: [] | false, alias?: string  } 
+  | { name: 'user', args?: [] | false, alias?: string  } 
   | { name: 'songs', args?: BracketSongsArgs[] | false, alias?: string  } 
   | { name: 'roundTime', args?: [] | false, alias?: string  } 
   | { name: 'active', args?: [] | false, alias?: string  } 
 
 type BracketFields =
   | 'id'
+  | 'user'
   | 'songs'
   | 'roundTime'
   | 'active'
@@ -633,6 +649,19 @@ export interface BracketFieldDetails {
     list: undefined
     nullable: false
     resolve: undefined
+  }
+  user: {
+    type: 'User'
+    args: {}
+    description: string
+    list: undefined
+    nullable: false
+    resolve: (
+      root: core.RootValue<"Bracket">,
+      args: {  }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.User> | prisma.User
   }
   songs: {
     type: 'Song'
@@ -675,6 +704,7 @@ type UserObject =
   | { name: 'email', args?: [] | false, alias?: string  } 
   | { name: 'password', args?: [] | false, alias?: string  } 
   | { name: 'votes', args?: UserVotesArgs[] | false, alias?: string  } 
+  | { name: 'brackets', args?: UserBracketsArgs[] | false, alias?: string  } 
 
 type UserFields =
   | 'id'
@@ -682,9 +712,18 @@ type UserFields =
   | 'email'
   | 'password'
   | 'votes'
+  | 'brackets'
 
 
 type UserVotesArgs =
+  | 'where'
+  | 'orderBy'
+  | 'skip'
+  | 'after'
+  | 'before'
+  | 'first'
+  | 'last'
+type UserBracketsArgs =
   | 'where'
   | 'orderBy'
   | 'skip'
@@ -739,6 +778,19 @@ export interface UserFieldDetails {
       context: core.GetGen<"context">,
       info?: GraphQLResolveInfo
     ) => Promise<prisma.Vote[]> | prisma.Vote[]
+  }
+  brackets: {
+    type: 'Bracket'
+    args: Record<UserBracketsArgs, core.NexusArgDef<string>>
+    description: string
+    list: true
+    nullable: false
+    resolve: (
+      root: core.RootValue<"User">,
+      args: { where?: BracketWhereInput | null, orderBy?: prisma.BracketOrderByInput | null, skip?: number | null, after?: string | null, before?: string | null, first?: number | null, last?: number | null }  ,
+      context: core.GetGen<"context">,
+      info?: GraphQLResolveInfo
+    ) => Promise<prisma.Bracket[]> | prisma.Bracket[]
   }
 }
   
@@ -2551,6 +2603,7 @@ export interface BracketWhereInput {
   id_not_starts_with?: string | null
   id_ends_with?: string | null
   id_not_ends_with?: string | null
+  user?: UserWhereInput | null
   songs_some?: SongWhereInput | null
   roundTime?: number | null
   roundTime_not?: number | null
@@ -2580,6 +2633,7 @@ export type BracketWhereInputInputObject =
   | { name: 'id_not_starts_with', alias?: string  } 
   | { name: 'id_ends_with', alias?: string  } 
   | { name: 'id_not_ends_with', alias?: string  } 
+  | { name: 'user', alias?: string  } 
   | { name: 'songs_some', alias?: string  } 
   | { name: 'roundTime', alias?: string  } 
   | { name: 'roundTime_not', alias?: string  } 
@@ -2651,6 +2705,7 @@ export interface UserWhereInput {
   password_ends_with?: string | null
   password_not_ends_with?: string | null
   votes_some?: VoteWhereInput | null
+  brackets_some?: BracketWhereInput | null
   AND?: UserWhereInput[]
 }
 export type UserWhereInputInputObject =
@@ -2712,6 +2767,7 @@ export type UserWhereInputInputObject =
   | { name: 'password_ends_with', alias?: string  } 
   | { name: 'password_not_ends_with', alias?: string  } 
   | { name: 'votes_some', alias?: string  } 
+  | { name: 'brackets_some', alias?: string  } 
   | { name: 'AND', alias?: string  } 
   
 export interface UserWhereUniqueInput {
@@ -2791,6 +2847,7 @@ export type BracketCreateOneInputInputObject =
   
 export interface BracketCreateInput {
   id?: string | null
+  user?: UserCreateOneWithoutBracketsInput
   songs?: SongCreateManyInput | null
   roundTime?: number
   active?: boolean | null
@@ -2798,9 +2855,56 @@ export interface BracketCreateInput {
 export type BracketCreateInputInputObject =
   | Extract<keyof BracketCreateInput, string>
   | { name: 'id', alias?: string  } 
+  | { name: 'user', alias?: string  } 
   | { name: 'songs', alias?: string  } 
   | { name: 'roundTime', alias?: string  } 
   | { name: 'active', alias?: string  } 
+  
+export interface UserCreateOneWithoutBracketsInput {
+  create?: UserCreateWithoutBracketsInput | null
+  connect?: UserWhereUniqueInput | null
+}
+export type UserCreateOneWithoutBracketsInputInputObject =
+  | Extract<keyof UserCreateOneWithoutBracketsInput, string>
+  | { name: 'create', alias?: string  } 
+  | { name: 'connect', alias?: string  } 
+  
+export interface UserCreateWithoutBracketsInput {
+  id?: string | null
+  username?: string
+  email?: string
+  password?: string
+  votes?: VoteCreateManyWithoutUserInput | null
+}
+export type UserCreateWithoutBracketsInputInputObject =
+  | Extract<keyof UserCreateWithoutBracketsInput, string>
+  | { name: 'id', alias?: string  } 
+  | { name: 'username', alias?: string  } 
+  | { name: 'email', alias?: string  } 
+  | { name: 'password', alias?: string  } 
+  | { name: 'votes', alias?: string  } 
+  
+export interface VoteCreateManyWithoutUserInput {
+  create?: VoteCreateWithoutUserInput[]
+  connect?: VoteWhereUniqueInput[]
+}
+export type VoteCreateManyWithoutUserInputInputObject =
+  | Extract<keyof VoteCreateManyWithoutUserInput, string>
+  | { name: 'create', alias?: string  } 
+  | { name: 'connect', alias?: string  } 
+  
+export interface VoteCreateWithoutUserInput {
+  id?: string | null
+  voteType?: boolean | null
+  song?: SongCreateOneWithoutVotesInput | null
+  bracket?: BracketCreateOneInput | null
+}
+export type VoteCreateWithoutUserInputInputObject =
+  | Extract<keyof VoteCreateWithoutUserInput, string>
+  | { name: 'id', alias?: string  } 
+  | { name: 'voteType', alias?: string  } 
+  | { name: 'song', alias?: string  } 
+  | { name: 'bracket', alias?: string  } 
   
 export interface SongCreateManyInput {
   create?: SongCreateInput[]
@@ -2866,6 +2970,7 @@ export interface UserCreateWithoutVotesInput {
   username?: string
   email?: string
   password?: string
+  brackets?: BracketCreateManyWithoutUserInput | null
 }
 export type UserCreateWithoutVotesInputInputObject =
   | Extract<keyof UserCreateWithoutVotesInput, string>
@@ -2873,6 +2978,29 @@ export type UserCreateWithoutVotesInputInputObject =
   | { name: 'username', alias?: string  } 
   | { name: 'email', alias?: string  } 
   | { name: 'password', alias?: string  } 
+  | { name: 'brackets', alias?: string  } 
+  
+export interface BracketCreateManyWithoutUserInput {
+  create?: BracketCreateWithoutUserInput[]
+  connect?: BracketWhereUniqueInput[]
+}
+export type BracketCreateManyWithoutUserInputInputObject =
+  | Extract<keyof BracketCreateManyWithoutUserInput, string>
+  | { name: 'create', alias?: string  } 
+  | { name: 'connect', alias?: string  } 
+  
+export interface BracketCreateWithoutUserInput {
+  id?: string | null
+  songs?: SongCreateManyInput | null
+  roundTime?: number
+  active?: boolean | null
+}
+export type BracketCreateWithoutUserInputInputObject =
+  | Extract<keyof BracketCreateWithoutUserInput, string>
+  | { name: 'id', alias?: string  } 
+  | { name: 'songs', alias?: string  } 
+  | { name: 'roundTime', alias?: string  } 
+  | { name: 'active', alias?: string  } 
   
 export interface VoteUpdateInput {
   voteType?: boolean | null
@@ -2946,15 +3074,165 @@ export type BracketUpdateOneInputInputObject =
   | { name: 'connect', alias?: string  } 
   
 export interface BracketUpdateDataInput {
+  user?: UserUpdateOneRequiredWithoutBracketsInput | null
   songs?: SongUpdateManyInput | null
   roundTime?: number | null
   active?: boolean | null
 }
 export type BracketUpdateDataInputInputObject =
   | Extract<keyof BracketUpdateDataInput, string>
+  | { name: 'user', alias?: string  } 
   | { name: 'songs', alias?: string  } 
   | { name: 'roundTime', alias?: string  } 
   | { name: 'active', alias?: string  } 
+  
+export interface UserUpdateOneRequiredWithoutBracketsInput {
+  create?: UserCreateWithoutBracketsInput | null
+  update?: UserUpdateWithoutBracketsDataInput | null
+  upsert?: UserUpsertWithoutBracketsInput | null
+  connect?: UserWhereUniqueInput | null
+}
+export type UserUpdateOneRequiredWithoutBracketsInputInputObject =
+  | Extract<keyof UserUpdateOneRequiredWithoutBracketsInput, string>
+  | { name: 'create', alias?: string  } 
+  | { name: 'update', alias?: string  } 
+  | { name: 'upsert', alias?: string  } 
+  | { name: 'connect', alias?: string  } 
+  
+export interface UserUpdateWithoutBracketsDataInput {
+  username?: string | null
+  email?: string | null
+  password?: string | null
+  votes?: VoteUpdateManyWithoutUserInput | null
+}
+export type UserUpdateWithoutBracketsDataInputInputObject =
+  | Extract<keyof UserUpdateWithoutBracketsDataInput, string>
+  | { name: 'username', alias?: string  } 
+  | { name: 'email', alias?: string  } 
+  | { name: 'password', alias?: string  } 
+  | { name: 'votes', alias?: string  } 
+  
+export interface VoteUpdateManyWithoutUserInput {
+  create?: VoteCreateWithoutUserInput[]
+  delete?: VoteWhereUniqueInput[]
+  connect?: VoteWhereUniqueInput[]
+  set?: VoteWhereUniqueInput[]
+  disconnect?: VoteWhereUniqueInput[]
+  update?: VoteUpdateWithWhereUniqueWithoutUserInput[]
+  upsert?: VoteUpsertWithWhereUniqueWithoutUserInput[]
+  deleteMany?: VoteScalarWhereInput[]
+  updateMany?: VoteUpdateManyWithWhereNestedInput[]
+}
+export type VoteUpdateManyWithoutUserInputInputObject =
+  | Extract<keyof VoteUpdateManyWithoutUserInput, string>
+  | { name: 'create', alias?: string  } 
+  | { name: 'delete', alias?: string  } 
+  | { name: 'connect', alias?: string  } 
+  | { name: 'set', alias?: string  } 
+  | { name: 'disconnect', alias?: string  } 
+  | { name: 'update', alias?: string  } 
+  | { name: 'upsert', alias?: string  } 
+  | { name: 'deleteMany', alias?: string  } 
+  | { name: 'updateMany', alias?: string  } 
+  
+export interface VoteUpdateWithWhereUniqueWithoutUserInput {
+  where?: VoteWhereUniqueInput
+  data?: VoteUpdateWithoutUserDataInput
+}
+export type VoteUpdateWithWhereUniqueWithoutUserInputInputObject =
+  | Extract<keyof VoteUpdateWithWhereUniqueWithoutUserInput, string>
+  | { name: 'where', alias?: string  } 
+  | { name: 'data', alias?: string  } 
+  
+export interface VoteUpdateWithoutUserDataInput {
+  voteType?: boolean | null
+  song?: SongUpdateOneWithoutVotesInput | null
+  bracket?: BracketUpdateOneInput | null
+}
+export type VoteUpdateWithoutUserDataInputInputObject =
+  | Extract<keyof VoteUpdateWithoutUserDataInput, string>
+  | { name: 'voteType', alias?: string  } 
+  | { name: 'song', alias?: string  } 
+  | { name: 'bracket', alias?: string  } 
+  
+export interface VoteUpsertWithWhereUniqueWithoutUserInput {
+  where?: VoteWhereUniqueInput
+  update?: VoteUpdateWithoutUserDataInput
+  create?: VoteCreateWithoutUserInput
+}
+export type VoteUpsertWithWhereUniqueWithoutUserInputInputObject =
+  | Extract<keyof VoteUpsertWithWhereUniqueWithoutUserInput, string>
+  | { name: 'where', alias?: string  } 
+  | { name: 'update', alias?: string  } 
+  | { name: 'create', alias?: string  } 
+  
+export interface VoteScalarWhereInput {
+  id?: string | null
+  id_not?: string | null
+  id_in?: string[]
+  id_not_in?: string[]
+  id_lt?: string | null
+  id_lte?: string | null
+  id_gt?: string | null
+  id_gte?: string | null
+  id_contains?: string | null
+  id_not_contains?: string | null
+  id_starts_with?: string | null
+  id_not_starts_with?: string | null
+  id_ends_with?: string | null
+  id_not_ends_with?: string | null
+  voteType?: boolean | null
+  voteType_not?: boolean | null
+  AND?: VoteScalarWhereInput[]
+  OR?: VoteScalarWhereInput[]
+  NOT?: VoteScalarWhereInput[]
+}
+export type VoteScalarWhereInputInputObject =
+  | Extract<keyof VoteScalarWhereInput, string>
+  | { name: 'id', alias?: string  } 
+  | { name: 'id_not', alias?: string  } 
+  | { name: 'id_in', alias?: string  } 
+  | { name: 'id_not_in', alias?: string  } 
+  | { name: 'id_lt', alias?: string  } 
+  | { name: 'id_lte', alias?: string  } 
+  | { name: 'id_gt', alias?: string  } 
+  | { name: 'id_gte', alias?: string  } 
+  | { name: 'id_contains', alias?: string  } 
+  | { name: 'id_not_contains', alias?: string  } 
+  | { name: 'id_starts_with', alias?: string  } 
+  | { name: 'id_not_starts_with', alias?: string  } 
+  | { name: 'id_ends_with', alias?: string  } 
+  | { name: 'id_not_ends_with', alias?: string  } 
+  | { name: 'voteType', alias?: string  } 
+  | { name: 'voteType_not', alias?: string  } 
+  | { name: 'AND', alias?: string  } 
+  | { name: 'OR', alias?: string  } 
+  | { name: 'NOT', alias?: string  } 
+  
+export interface VoteUpdateManyWithWhereNestedInput {
+  where?: VoteScalarWhereInput
+  data?: VoteUpdateManyDataInput
+}
+export type VoteUpdateManyWithWhereNestedInputInputObject =
+  | Extract<keyof VoteUpdateManyWithWhereNestedInput, string>
+  | { name: 'where', alias?: string  } 
+  | { name: 'data', alias?: string  } 
+  
+export interface VoteUpdateManyDataInput {
+  voteType?: boolean | null
+}
+export type VoteUpdateManyDataInputInputObject =
+  | Extract<keyof VoteUpdateManyDataInput, string>
+  | { name: 'voteType', alias?: string  } 
+  
+export interface UserUpsertWithoutBracketsInput {
+  update?: UserUpdateWithoutBracketsDataInput
+  create?: UserCreateWithoutBracketsInput
+}
+export type UserUpsertWithoutBracketsInputInputObject =
+  | Extract<keyof UserUpsertWithoutBracketsInput, string>
+  | { name: 'update', alias?: string  } 
+  | { name: 'create', alias?: string  } 
   
 export interface SongUpdateManyInput {
   create?: SongCreateInput[]
@@ -3065,12 +3343,145 @@ export interface UserUpdateWithoutVotesDataInput {
   username?: string | null
   email?: string | null
   password?: string | null
+  brackets?: BracketUpdateManyWithoutUserInput | null
 }
 export type UserUpdateWithoutVotesDataInputInputObject =
   | Extract<keyof UserUpdateWithoutVotesDataInput, string>
   | { name: 'username', alias?: string  } 
   | { name: 'email', alias?: string  } 
   | { name: 'password', alias?: string  } 
+  | { name: 'brackets', alias?: string  } 
+  
+export interface BracketUpdateManyWithoutUserInput {
+  create?: BracketCreateWithoutUserInput[]
+  delete?: BracketWhereUniqueInput[]
+  connect?: BracketWhereUniqueInput[]
+  set?: BracketWhereUniqueInput[]
+  disconnect?: BracketWhereUniqueInput[]
+  update?: BracketUpdateWithWhereUniqueWithoutUserInput[]
+  upsert?: BracketUpsertWithWhereUniqueWithoutUserInput[]
+  deleteMany?: BracketScalarWhereInput[]
+  updateMany?: BracketUpdateManyWithWhereNestedInput[]
+}
+export type BracketUpdateManyWithoutUserInputInputObject =
+  | Extract<keyof BracketUpdateManyWithoutUserInput, string>
+  | { name: 'create', alias?: string  } 
+  | { name: 'delete', alias?: string  } 
+  | { name: 'connect', alias?: string  } 
+  | { name: 'set', alias?: string  } 
+  | { name: 'disconnect', alias?: string  } 
+  | { name: 'update', alias?: string  } 
+  | { name: 'upsert', alias?: string  } 
+  | { name: 'deleteMany', alias?: string  } 
+  | { name: 'updateMany', alias?: string  } 
+  
+export interface BracketUpdateWithWhereUniqueWithoutUserInput {
+  where?: BracketWhereUniqueInput
+  data?: BracketUpdateWithoutUserDataInput
+}
+export type BracketUpdateWithWhereUniqueWithoutUserInputInputObject =
+  | Extract<keyof BracketUpdateWithWhereUniqueWithoutUserInput, string>
+  | { name: 'where', alias?: string  } 
+  | { name: 'data', alias?: string  } 
+  
+export interface BracketUpdateWithoutUserDataInput {
+  songs?: SongUpdateManyInput | null
+  roundTime?: number | null
+  active?: boolean | null
+}
+export type BracketUpdateWithoutUserDataInputInputObject =
+  | Extract<keyof BracketUpdateWithoutUserDataInput, string>
+  | { name: 'songs', alias?: string  } 
+  | { name: 'roundTime', alias?: string  } 
+  | { name: 'active', alias?: string  } 
+  
+export interface BracketUpsertWithWhereUniqueWithoutUserInput {
+  where?: BracketWhereUniqueInput
+  update?: BracketUpdateWithoutUserDataInput
+  create?: BracketCreateWithoutUserInput
+}
+export type BracketUpsertWithWhereUniqueWithoutUserInputInputObject =
+  | Extract<keyof BracketUpsertWithWhereUniqueWithoutUserInput, string>
+  | { name: 'where', alias?: string  } 
+  | { name: 'update', alias?: string  } 
+  | { name: 'create', alias?: string  } 
+  
+export interface BracketScalarWhereInput {
+  id?: string | null
+  id_not?: string | null
+  id_in?: string[]
+  id_not_in?: string[]
+  id_lt?: string | null
+  id_lte?: string | null
+  id_gt?: string | null
+  id_gte?: string | null
+  id_contains?: string | null
+  id_not_contains?: string | null
+  id_starts_with?: string | null
+  id_not_starts_with?: string | null
+  id_ends_with?: string | null
+  id_not_ends_with?: string | null
+  roundTime?: number | null
+  roundTime_not?: number | null
+  roundTime_in?: number[]
+  roundTime_not_in?: number[]
+  roundTime_lt?: number | null
+  roundTime_lte?: number | null
+  roundTime_gt?: number | null
+  roundTime_gte?: number | null
+  active?: boolean | null
+  active_not?: boolean | null
+  AND?: BracketScalarWhereInput[]
+  OR?: BracketScalarWhereInput[]
+  NOT?: BracketScalarWhereInput[]
+}
+export type BracketScalarWhereInputInputObject =
+  | Extract<keyof BracketScalarWhereInput, string>
+  | { name: 'id', alias?: string  } 
+  | { name: 'id_not', alias?: string  } 
+  | { name: 'id_in', alias?: string  } 
+  | { name: 'id_not_in', alias?: string  } 
+  | { name: 'id_lt', alias?: string  } 
+  | { name: 'id_lte', alias?: string  } 
+  | { name: 'id_gt', alias?: string  } 
+  | { name: 'id_gte', alias?: string  } 
+  | { name: 'id_contains', alias?: string  } 
+  | { name: 'id_not_contains', alias?: string  } 
+  | { name: 'id_starts_with', alias?: string  } 
+  | { name: 'id_not_starts_with', alias?: string  } 
+  | { name: 'id_ends_with', alias?: string  } 
+  | { name: 'id_not_ends_with', alias?: string  } 
+  | { name: 'roundTime', alias?: string  } 
+  | { name: 'roundTime_not', alias?: string  } 
+  | { name: 'roundTime_in', alias?: string  } 
+  | { name: 'roundTime_not_in', alias?: string  } 
+  | { name: 'roundTime_lt', alias?: string  } 
+  | { name: 'roundTime_lte', alias?: string  } 
+  | { name: 'roundTime_gt', alias?: string  } 
+  | { name: 'roundTime_gte', alias?: string  } 
+  | { name: 'active', alias?: string  } 
+  | { name: 'active_not', alias?: string  } 
+  | { name: 'AND', alias?: string  } 
+  | { name: 'OR', alias?: string  } 
+  | { name: 'NOT', alias?: string  } 
+  
+export interface BracketUpdateManyWithWhereNestedInput {
+  where?: BracketScalarWhereInput
+  data?: BracketUpdateManyDataInput
+}
+export type BracketUpdateManyWithWhereNestedInputInputObject =
+  | Extract<keyof BracketUpdateManyWithWhereNestedInput, string>
+  | { name: 'where', alias?: string  } 
+  | { name: 'data', alias?: string  } 
+  
+export interface BracketUpdateManyDataInput {
+  roundTime?: number | null
+  active?: boolean | null
+}
+export type BracketUpdateManyDataInputInputObject =
+  | Extract<keyof BracketUpdateManyDataInput, string>
+  | { name: 'roundTime', alias?: string  } 
+  | { name: 'active', alias?: string  } 
   
 export interface UserUpsertWithoutVotesInput {
   update?: UserUpdateWithoutVotesDataInput
@@ -3091,65 +3502,6 @@ export type VoteUpsertWithWhereUniqueWithoutSongInputInputObject =
   | { name: 'where', alias?: string  } 
   | { name: 'update', alias?: string  } 
   | { name: 'create', alias?: string  } 
-  
-export interface VoteScalarWhereInput {
-  id?: string | null
-  id_not?: string | null
-  id_in?: string[]
-  id_not_in?: string[]
-  id_lt?: string | null
-  id_lte?: string | null
-  id_gt?: string | null
-  id_gte?: string | null
-  id_contains?: string | null
-  id_not_contains?: string | null
-  id_starts_with?: string | null
-  id_not_starts_with?: string | null
-  id_ends_with?: string | null
-  id_not_ends_with?: string | null
-  voteType?: boolean | null
-  voteType_not?: boolean | null
-  AND?: VoteScalarWhereInput[]
-  OR?: VoteScalarWhereInput[]
-  NOT?: VoteScalarWhereInput[]
-}
-export type VoteScalarWhereInputInputObject =
-  | Extract<keyof VoteScalarWhereInput, string>
-  | { name: 'id', alias?: string  } 
-  | { name: 'id_not', alias?: string  } 
-  | { name: 'id_in', alias?: string  } 
-  | { name: 'id_not_in', alias?: string  } 
-  | { name: 'id_lt', alias?: string  } 
-  | { name: 'id_lte', alias?: string  } 
-  | { name: 'id_gt', alias?: string  } 
-  | { name: 'id_gte', alias?: string  } 
-  | { name: 'id_contains', alias?: string  } 
-  | { name: 'id_not_contains', alias?: string  } 
-  | { name: 'id_starts_with', alias?: string  } 
-  | { name: 'id_not_starts_with', alias?: string  } 
-  | { name: 'id_ends_with', alias?: string  } 
-  | { name: 'id_not_ends_with', alias?: string  } 
-  | { name: 'voteType', alias?: string  } 
-  | { name: 'voteType_not', alias?: string  } 
-  | { name: 'AND', alias?: string  } 
-  | { name: 'OR', alias?: string  } 
-  | { name: 'NOT', alias?: string  } 
-  
-export interface VoteUpdateManyWithWhereNestedInput {
-  where?: VoteScalarWhereInput
-  data?: VoteUpdateManyDataInput
-}
-export type VoteUpdateManyWithWhereNestedInputInputObject =
-  | Extract<keyof VoteUpdateManyWithWhereNestedInput, string>
-  | { name: 'where', alias?: string  } 
-  | { name: 'data', alias?: string  } 
-  
-export interface VoteUpdateManyDataInput {
-  voteType?: boolean | null
-}
-export type VoteUpdateManyDataInputInputObject =
-  | Extract<keyof VoteUpdateManyDataInput, string>
-  | { name: 'voteType', alias?: string  } 
   
 export interface SongUpsertWithWhereUniqueNestedInput {
   where?: SongWhereUniqueInput
@@ -3355,6 +3707,7 @@ export interface UserCreateInput {
   email?: string
   password?: string
   votes?: VoteCreateManyWithoutUserInput | null
+  brackets?: BracketCreateManyWithoutUserInput | null
 }
 export type UserCreateInputInputObject =
   | Extract<keyof UserCreateInput, string>
@@ -3363,34 +3716,14 @@ export type UserCreateInputInputObject =
   | { name: 'email', alias?: string  } 
   | { name: 'password', alias?: string  } 
   | { name: 'votes', alias?: string  } 
-  
-export interface VoteCreateManyWithoutUserInput {
-  create?: VoteCreateWithoutUserInput[]
-  connect?: VoteWhereUniqueInput[]
-}
-export type VoteCreateManyWithoutUserInputInputObject =
-  | Extract<keyof VoteCreateManyWithoutUserInput, string>
-  | { name: 'create', alias?: string  } 
-  | { name: 'connect', alias?: string  } 
-  
-export interface VoteCreateWithoutUserInput {
-  id?: string | null
-  voteType?: boolean | null
-  song?: SongCreateOneWithoutVotesInput | null
-  bracket?: BracketCreateOneInput | null
-}
-export type VoteCreateWithoutUserInputInputObject =
-  | Extract<keyof VoteCreateWithoutUserInput, string>
-  | { name: 'id', alias?: string  } 
-  | { name: 'voteType', alias?: string  } 
-  | { name: 'song', alias?: string  } 
-  | { name: 'bracket', alias?: string  } 
+  | { name: 'brackets', alias?: string  } 
   
 export interface UserUpdateInput {
   username?: string | null
   email?: string | null
   password?: string | null
   votes?: VoteUpdateManyWithoutUserInput | null
+  brackets?: BracketUpdateManyWithoutUserInput | null
 }
 export type UserUpdateInputInputObject =
   | Extract<keyof UserUpdateInput, string>
@@ -3398,60 +3731,7 @@ export type UserUpdateInputInputObject =
   | { name: 'email', alias?: string  } 
   | { name: 'password', alias?: string  } 
   | { name: 'votes', alias?: string  } 
-  
-export interface VoteUpdateManyWithoutUserInput {
-  create?: VoteCreateWithoutUserInput[]
-  delete?: VoteWhereUniqueInput[]
-  connect?: VoteWhereUniqueInput[]
-  set?: VoteWhereUniqueInput[]
-  disconnect?: VoteWhereUniqueInput[]
-  update?: VoteUpdateWithWhereUniqueWithoutUserInput[]
-  upsert?: VoteUpsertWithWhereUniqueWithoutUserInput[]
-  deleteMany?: VoteScalarWhereInput[]
-  updateMany?: VoteUpdateManyWithWhereNestedInput[]
-}
-export type VoteUpdateManyWithoutUserInputInputObject =
-  | Extract<keyof VoteUpdateManyWithoutUserInput, string>
-  | { name: 'create', alias?: string  } 
-  | { name: 'delete', alias?: string  } 
-  | { name: 'connect', alias?: string  } 
-  | { name: 'set', alias?: string  } 
-  | { name: 'disconnect', alias?: string  } 
-  | { name: 'update', alias?: string  } 
-  | { name: 'upsert', alias?: string  } 
-  | { name: 'deleteMany', alias?: string  } 
-  | { name: 'updateMany', alias?: string  } 
-  
-export interface VoteUpdateWithWhereUniqueWithoutUserInput {
-  where?: VoteWhereUniqueInput
-  data?: VoteUpdateWithoutUserDataInput
-}
-export type VoteUpdateWithWhereUniqueWithoutUserInputInputObject =
-  | Extract<keyof VoteUpdateWithWhereUniqueWithoutUserInput, string>
-  | { name: 'where', alias?: string  } 
-  | { name: 'data', alias?: string  } 
-  
-export interface VoteUpdateWithoutUserDataInput {
-  voteType?: boolean | null
-  song?: SongUpdateOneWithoutVotesInput | null
-  bracket?: BracketUpdateOneInput | null
-}
-export type VoteUpdateWithoutUserDataInputInputObject =
-  | Extract<keyof VoteUpdateWithoutUserDataInput, string>
-  | { name: 'voteType', alias?: string  } 
-  | { name: 'song', alias?: string  } 
-  | { name: 'bracket', alias?: string  } 
-  
-export interface VoteUpsertWithWhereUniqueWithoutUserInput {
-  where?: VoteWhereUniqueInput
-  update?: VoteUpdateWithoutUserDataInput
-  create?: VoteCreateWithoutUserInput
-}
-export type VoteUpsertWithWhereUniqueWithoutUserInputInputObject =
-  | Extract<keyof VoteUpsertWithWhereUniqueWithoutUserInput, string>
-  | { name: 'where', alias?: string  } 
-  | { name: 'update', alias?: string  } 
-  | { name: 'create', alias?: string  } 
+  | { name: 'brackets', alias?: string  } 
   
 export interface UserUpdateManyMutationInput {
   username?: string | null
@@ -3497,12 +3777,14 @@ export type SongUpdateManyMutationInputInputObject =
   | { name: 'votingStatus', alias?: string  } 
   
 export interface BracketUpdateInput {
+  user?: UserUpdateOneRequiredWithoutBracketsInput | null
   songs?: SongUpdateManyInput | null
   roundTime?: number | null
   active?: boolean | null
 }
 export type BracketUpdateInputInputObject =
   | Extract<keyof BracketUpdateInput, string>
+  | { name: 'user', alias?: string  } 
   | { name: 'songs', alias?: string  } 
   | { name: 'roundTime', alias?: string  } 
   | { name: 'active', alias?: string  } 
@@ -3596,6 +3878,14 @@ export type VoteOrderByInputValues =
   | 'voteType_ASC'
   | 'voteType_DESC'
   
+export type BracketOrderByInputValues =
+  | 'id_ASC'
+  | 'id_DESC'
+  | 'roundTime_ASC'
+  | 'roundTime_DESC'
+  | 'active_ASC'
+  | 'active_DESC'
+  
 export type SongOrderByInputValues =
   | 'id_ASC'
   | 'id_DESC'
@@ -3619,14 +3909,6 @@ export type UserOrderByInputValues =
   | 'email_DESC'
   | 'password_ASC'
   | 'password_DESC'
-  
-export type BracketOrderByInputValues =
-  | 'id_ASC'
-  | 'id_DESC'
-  | 'roundTime_ASC'
-  | 'roundTime_DESC'
-  | 'active_ASC'
-  | 'active_DESC'
   
 export type MutationTypeValues =
   | 'CREATED'

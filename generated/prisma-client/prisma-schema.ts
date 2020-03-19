@@ -24,6 +24,7 @@ type BatchPayload {
 
 type Bracket {
   id: ID!
+  user: User!
   songs(where: SongWhereInput, orderBy: SongOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Song!]
   roundTime: Int!
   active: Boolean
@@ -37,14 +38,27 @@ type BracketConnection {
 
 input BracketCreateInput {
   id: ID
+  user: UserCreateOneWithoutBracketsInput!
   songs: SongCreateManyInput
   roundTime: Int!
   active: Boolean
 }
 
+input BracketCreateManyWithoutUserInput {
+  create: [BracketCreateWithoutUserInput!]
+  connect: [BracketWhereUniqueInput!]
+}
+
 input BracketCreateOneInput {
   create: BracketCreateInput
   connect: BracketWhereUniqueInput
+}
+
+input BracketCreateWithoutUserInput {
+  id: ID
+  songs: SongCreateManyInput
+  roundTime: Int!
+  active: Boolean
 }
 
 type BracketEdge {
@@ -67,6 +81,36 @@ type BracketPreviousValues {
   active: Boolean
 }
 
+input BracketScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  roundTime: Int
+  roundTime_not: Int
+  roundTime_in: [Int!]
+  roundTime_not_in: [Int!]
+  roundTime_lt: Int
+  roundTime_lte: Int
+  roundTime_gt: Int
+  roundTime_gte: Int
+  active: Boolean
+  active_not: Boolean
+  AND: [BracketScalarWhereInput!]
+  OR: [BracketScalarWhereInput!]
+  NOT: [BracketScalarWhereInput!]
+}
+
 type BracketSubscriptionPayload {
   mutation: MutationType!
   node: Bracket
@@ -84,13 +128,20 @@ input BracketSubscriptionWhereInput {
 }
 
 input BracketUpdateDataInput {
+  user: UserUpdateOneRequiredWithoutBracketsInput
   songs: SongUpdateManyInput
   roundTime: Int
   active: Boolean
 }
 
 input BracketUpdateInput {
+  user: UserUpdateOneRequiredWithoutBracketsInput
   songs: SongUpdateManyInput
+  roundTime: Int
+  active: Boolean
+}
+
+input BracketUpdateManyDataInput {
   roundTime: Int
   active: Boolean
 }
@@ -98,6 +149,23 @@ input BracketUpdateInput {
 input BracketUpdateManyMutationInput {
   roundTime: Int
   active: Boolean
+}
+
+input BracketUpdateManyWithoutUserInput {
+  create: [BracketCreateWithoutUserInput!]
+  delete: [BracketWhereUniqueInput!]
+  connect: [BracketWhereUniqueInput!]
+  set: [BracketWhereUniqueInput!]
+  disconnect: [BracketWhereUniqueInput!]
+  update: [BracketUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [BracketUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [BracketScalarWhereInput!]
+  updateMany: [BracketUpdateManyWithWhereNestedInput!]
+}
+
+input BracketUpdateManyWithWhereNestedInput {
+  where: BracketScalarWhereInput!
+  data: BracketUpdateManyDataInput!
 }
 
 input BracketUpdateOneInput {
@@ -109,9 +177,26 @@ input BracketUpdateOneInput {
   connect: BracketWhereUniqueInput
 }
 
+input BracketUpdateWithoutUserDataInput {
+  songs: SongUpdateManyInput
+  roundTime: Int
+  active: Boolean
+}
+
+input BracketUpdateWithWhereUniqueWithoutUserInput {
+  where: BracketWhereUniqueInput!
+  data: BracketUpdateWithoutUserDataInput!
+}
+
 input BracketUpsertNestedInput {
   update: BracketUpdateDataInput!
   create: BracketCreateInput!
+}
+
+input BracketUpsertWithWhereUniqueWithoutUserInput {
+  where: BracketWhereUniqueInput!
+  update: BracketUpdateWithoutUserDataInput!
+  create: BracketCreateWithoutUserInput!
 }
 
 input BracketWhereInput {
@@ -129,6 +214,7 @@ input BracketWhereInput {
   id_not_starts_with: ID
   id_ends_with: ID
   id_not_ends_with: ID
+  user: UserWhereInput
   songs_some: SongWhereInput
   roundTime: Int
   roundTime_not: Int
@@ -547,6 +633,7 @@ type User {
   email: String!
   password: String!
   votes(where: VoteWhereInput, orderBy: VoteOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Vote!]
+  brackets(where: BracketWhereInput, orderBy: BracketOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Bracket!]
 }
 
 type UserConnection {
@@ -561,6 +648,12 @@ input UserCreateInput {
   email: String!
   password: String!
   votes: VoteCreateManyWithoutUserInput
+  brackets: BracketCreateManyWithoutUserInput
+}
+
+input UserCreateOneWithoutBracketsInput {
+  create: UserCreateWithoutBracketsInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutVotesInput {
@@ -568,11 +661,20 @@ input UserCreateOneWithoutVotesInput {
   connect: UserWhereUniqueInput
 }
 
+input UserCreateWithoutBracketsInput {
+  id: ID
+  username: String!
+  email: String!
+  password: String!
+  votes: VoteCreateManyWithoutUserInput
+}
+
 input UserCreateWithoutVotesInput {
   id: ID
   username: String!
   email: String!
   password: String!
+  brackets: BracketCreateManyWithoutUserInput
 }
 
 type UserEdge {
@@ -619,12 +721,20 @@ input UserUpdateInput {
   email: String
   password: String
   votes: VoteUpdateManyWithoutUserInput
+  brackets: BracketUpdateManyWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {
   username: String
   email: String
   password: String
+}
+
+input UserUpdateOneRequiredWithoutBracketsInput {
+  create: UserCreateWithoutBracketsInput
+  update: UserUpdateWithoutBracketsDataInput
+  upsert: UserUpsertWithoutBracketsInput
+  connect: UserWhereUniqueInput
 }
 
 input UserUpdateOneRequiredWithoutVotesInput {
@@ -634,10 +744,23 @@ input UserUpdateOneRequiredWithoutVotesInput {
   connect: UserWhereUniqueInput
 }
 
+input UserUpdateWithoutBracketsDataInput {
+  username: String
+  email: String
+  password: String
+  votes: VoteUpdateManyWithoutUserInput
+}
+
 input UserUpdateWithoutVotesDataInput {
   username: String
   email: String
   password: String
+  brackets: BracketUpdateManyWithoutUserInput
+}
+
+input UserUpsertWithoutBracketsInput {
+  update: UserUpdateWithoutBracketsDataInput!
+  create: UserCreateWithoutBracketsInput!
 }
 
 input UserUpsertWithoutVotesInput {
@@ -703,6 +826,7 @@ input UserWhereInput {
   password_ends_with: String
   password_not_ends_with: String
   votes_some: VoteWhereInput
+  brackets_some: BracketWhereInput
   AND: [UserWhereInput!]
 }
 
