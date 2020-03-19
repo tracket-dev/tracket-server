@@ -1,0 +1,7 @@
+{
+  "name": "tracket-server",
+  "profile": "default",
+  "regions": [
+    "us-west-1"
+  ]
+}
