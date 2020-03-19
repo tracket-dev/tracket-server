@@ -18,6 +18,7 @@ type User {
   email: String! @unique
   password: String!
   votes: [Vote!]! @relation(name: "VotedUser", link: INLINE)
+  brackets: [Bracket!]! @relation(name: "BracketOwner", link:INLINE)
 }
 
 
@@ -33,9 +34,11 @@ type Song {
 
 type Bracket {
   id: ID! @id
+  user: User! @relation(name: "BracketOwner", link:INLINE)
   songs: [Song!]! @relation(link: INLINE)
   roundTime: Int!
   active: Boolean
+  
 }
 
 
