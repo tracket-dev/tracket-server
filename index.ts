@@ -5,6 +5,8 @@ import { stringArg, idArg } from "nexus";
 import { prismaObjectType, makePrismaSchema } from "nexus-prisma";
 import { GraphQLServer } from "graphql-yoga";
 
+const { PORT } = process.env;
+
 const Query = prismaObjectType({
   name: "Query",
   definition(t) {
@@ -37,6 +39,6 @@ const server = new GraphQLServer({
   schema,
   context: { prisma }
 });
-server.start(({ port }) =>
+server.start({ port: PORT }, ({ port }) =>
   console.log(`Server is running on http://localhost:${port}`)
 );
