@@ -1,14 +1,40 @@
 import { prisma } from "./generated/prisma-client";
+import datamodelInfo from "./generated/nexus-prisma";
+import * as path from "path";
+import { stringArg, idArg } from "nexus";
+import { prismaObjectType, makePrismaSchema } from "nexus-prisma";
+import { GraphQLServer } from "graphql-yoga";
 
-// A `main` function so that we can use async/await
-async function main() {
-  // Create a new user called `Alice`
-  const newUser = await prisma.createUser({ name: "Alice" });
-  console.log(`Created new user: ${newUser.name} (ID: ${newUser.id})`);
+const Query = prismaObjectType({
+  name: "Query",
+  definition(t) {
+    t.prismaFields(["brackets", "users"]);
+  }
+});
 
-  // Read all users from the database and print them to the console
-  const allUsers = await prisma.users();
-  console.log(allUsers);
-}
+const Mutation = prismaObjectType({
+  name: "Mutation",
+  definition(t) {
+    t.prismaFields(["*"]);
+  }
+});
 
-main().catch(e => console.error(e));
+const schema = makePrismaSchema({
+  types: [Query, Mutation],
+
+  prisma: {
+    datamodelInfo,
+    client: prisma
+  },
+
+  outputs: {
+    schema: path.join(__dirname, "./generated/schema.graphql"),
+    typegen: path.join(__dirname, "./generated/nexus.ts")
+  }
+});
+
+const server = new GraphQLServer({
+  schema,
+  context: { prisma }
+});
+server.start(() => console.log("Server is running on http://localhost:4000"));
