@@ -1,4 +1,42 @@
+enum VotingStatus {
+  WIN,
+  LOSS,
+  IN_PROGRESS
+}
+
+type Vote {
+  id: ID! @id
+  voteType: Boolean
+  song: Song @relation(name: "VotedSong", link: INLINE)
+  bracket: Bracket @relation(link: INLINE)
+  user: User! @relation(name: "VotedUser")
+}
+
 type User {
   id: ID! @id
-  name: String!
+  username: String! @unique
+  email: String! @unique
+  password: String!
+  votes: [Vote!]! @relation(name: "VotedUser", link: INLINE)
 }
+
+
+type Song {
+  id: ID! @id
+  spotifyID: String!
+  title: String!
+  album: String!
+  position: Int!
+  votingStatus: VotingStatus!
+  votes: [Vote]! @relation(name: "VotedSong")
+}
+
+type Bracket {
+  id: ID! @id
+  songs: [Song!]! @relation(link: INLINE)
+  roundTime: Int!
+  active: Boolean
+}
+
+
+
