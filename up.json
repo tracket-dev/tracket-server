@@ -4,5 +4,8 @@
   "regions": ["us-west-1"],
   "error_pages": {
     "disable": true
+  },
+  "proxy": {
+    "command": "ts-node index.ts"
   }
 }
